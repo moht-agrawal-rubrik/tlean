@@ -1,0 +1,122 @@
+[
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-581533",
+    "timestamp": "2025-08-29 18:02:59",
+    "title": "SPARK-581533: [TOTVS S.A.] 2500+ 504 Gateway Timeout since migrating from REST API to GraphQL when executing queries.",
+    "long_summary": "[Investigating] TOTVS S.A. is experiencing 2500+ 504 Gateway Timeout errors after migrating from REST API to GraphQL, impacting automated workflows and causing failed queries/mutations. Although backend API calls eventually succeed, extended response times (>10 minutes) trigger 504 errors, leading to incorrect host status in customer automation scripts. Multiple clusters are affected. Priority is P1; root cause appears to be cluster overload post-migration. Mitigation options and alternative status polling are being discussed.",
+    "action_items": [
+      "Propose alternative response code to avoid automation script failures",
+      "Share polling workaround using queryHost API with customer"
+    ],
+    "score": 0.75
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-576702",
+    "timestamp": "2025-07-09 23:41:13",
+    "title": "SPARK-576702: Implement physicalHostList query for secondary host registration table - Phase 2 ",
+    "long_summary": "[To Do] Implement physicalHostList query for the secondary host registration table as part of Phase 2. Task is prioritized as P2 and assigned to Mohit Agrawal. No additional details or blockers noted; work has not yet started.",
+    "action_items": [
+      "Design query logic for secondary host registration table",
+      "Draft initial implementation plan for physicalHostList query"
+    ],
+    "score": 0.5
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-572198",
+    "timestamp": "2025-08-10 22:32:48",
+    "title": "SPARK-572198: Change certificate table and query to not show secondary certs on UI (Phase 2)",
+    "long_summary": "[To Do] Update certificate table and query logic to exclude secondary certificates from UI display (Phase 2). Task assigned to Mohit Agrawal; priority P2. No description or recent progress noted.",
+    "action_items": [
+      "Update certificate table schema to exclude secondary certificates",
+      "Modify UI query to filter out secondary certificates"
+    ],
+    "score": 0.5
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-572187",
+    "timestamp": "2025-07-09 23:40:57",
+    "title": "SPARK-572187: Add SECONDARY_HOST_REGISTRATION_ENABLED uff to RSC UI (Phase 2)",
+    "long_summary": "[To Do] Task to add SECONDARY_HOST_REGISTRATION_ENABLED UFF to RSC UI as part of Phase 2. No description provided; awaiting requirements and implementation. Priority P2, assigned to Mohit Agrawal.",
+    "action_items": [
+      "Define UI placement for SECONDARY_HOST_REGISTRATION_ENABLED flag",
+      "Draft initial UI implementation plan"
+    ],
+    "score": 0.5
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-572186",
+    "timestamp": "2025-07-09 23:40:51",
+    "title": "SPARK-572186: Integrate secondary host registration API in RSC UI (Phase 2)",
+    "long_summary": "[To Do] Integrate secondary host registration API into the RSC UI as part of Phase 2. Task is assigned to Mohit Agrawal with P2 priority; work has not yet started. No additional details or blockers noted.",
+    "action_items": [
+      "Design UI components for secondary host registration",
+      "Implement API integration in RSC UI"
+    ],
+    "score": 0.5
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-572184",
+    "timestamp": "2025-07-09 23:40:42",
+    "title": "SPARK-572184: Add secondary host registration API in API server (Phase 2)",
+    "long_summary": "[To Do] Task to implement secondary host registration API in the API server (Phase 2). No additional details provided; priority is P2 and currently unassigned. Awaiting development start.",
+    "action_items": [
+      "Design API endpoints for secondary host registration",
+      "Draft implementation plan for new API feature"
+    ],
+    "score": 0.5
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-551265",
+    "timestamp": "2025-06-02 23:44:39",
+    "title": "SPARK-551265: The registered hosts are not getting synced immediately in RSC when spray server timeouts",
+    "long_summary": "[To Do] Bulk host registrations (~50) are not immediately synced in RSC UI when spray server timeouts prevent cdm rest service post-processing. Hosts eventually appear, but risk of missed updates exists. Fix needed on cdm side to trigger rest service before timeout. Priority P2; awaiting action.",
+    "action_items": [
+      "Implement early failure in cdm API to trigger rest service before timeout",
+      "Verify if missed updates occur during bulk host registration"
+    ],
+    "score": 0.55
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-539077",
+    "timestamp": "2025-07-29 07:23:10",
+    "title": "SPARK-539077: Production Readiness Review - RBS deployment from RSC UI",
+    "long_summary": "[Not Reviewed] Production Readiness Review pending for RBS deployment from RSC UI. No database changes required per assignee. Review process needs to be initiated and completed at least 1 week before GA ramp. Priority is P2; readiness checks and meetings with relevant contacts are outstanding.",
+    "action_items": [
+      "Schedule production readiness review meeting with relevant stakeholders",
+      "Complete required production readiness checklists in Jira"
+    ],
+    "score": 0.55
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-519860",
+    "timestamp": "2025-04-07 03:03:26",
+    "title": "SPARK-519860: Performance metrics added to perf dashboard : RBS deployment from RSC UI",
+    "long_summary": "[To Do] Add RBS deployment performance metrics from RSC UI to Tableau dashboards (CDM and Polaris). Coordinate with #turbo-team to ensure benchmarking data is visible and human-readable; update mapping if needed. Task is pending test addition and dashboard reflection. Priority P2, no progress yet.",
+    "action_items": [
+      "Verify RBS deployment metrics appear on both Tableau dashboards",
+      "Update mapping spreadsheet if metrics are not human-readable"
+    ],
+    "score": 0.55
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-519855",
+    "timestamp": "2025-08-12 02:38:45",
+    "title": "SPARK-519855: RBS deployment from RSC UI",
+    "long_summary": "[Rollout] Automating RBS deployment from the RSC UI to eliminate manual installation steps for SQL hosts. High-priority Epic currently in rollout phase, with testing underway on 50 hosts. ATL review is required and in progress. This enhancement aims to streamline large-scale SQL host registration and reduce operational overhead.",
+    "action_items": [
+      "Confirm ETA for ATL review with responsible stakeholders",
+      "Document results from 50-host testing in project tracker"
+    ],
+    "score": 0.7
+  }
+]
