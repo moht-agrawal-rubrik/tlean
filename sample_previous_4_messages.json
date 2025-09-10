@@ -1,0 +1,131 @@
+{
+    "ok": true,
+    "latest": "1757486516.496349",
+    "messages":
+    [
+        {
+            "user": "U09E7BBEB9T",
+            "type": "message",
+            "ts": "1757486516.496349",
+            "client_msg_id": "28719263-8f20-432e-b214-1115ec045396",
+            "text": "<@U09DVNAD36K> any updates on this?",
+            "team": "T09DVNACUQP",
+            "blocks":
+            [
+                {
+                    "type": "rich_text",
+                    "block_id": "OVS2B",
+                    "elements":
+                    [
+                        {
+                            "type": "rich_text_section",
+                            "elements":
+                            [
+                                {
+                                    "type": "user",
+                                    "user_id": "U09DVNAD36K"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": " any updates on this?"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "user": "U09DVNAD36K",
+            "type": "message",
+            "ts": "1757486509.722719",
+            "client_msg_id": "4841ab64-82f9-4bb9-9bc6-e10d85842329",
+            "text": "ok will add",
+            "team": "T09DVNACUQP",
+            "blocks":
+            [
+                {
+                    "type": "rich_text",
+                    "block_id": "zlIiE",
+                    "elements":
+                    [
+                        {
+                            "type": "rich_text_section",
+                            "elements":
+                            [
+                                {
+                                    "type": "text",
+                                    "text": "ok will add"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "user": "U09E7BBEB9T",
+            "type": "message",
+            "ts": "1757486501.338449",
+            "client_msg_id": "dcad45aa-c810-472d-a794-853952b6aac2",
+            "text": "I think yes - because that's where we add value",
+            "team": "T09DVNACUQP",
+            "blocks":
+            [
+                {
+                    "type": "rich_text",
+                    "block_id": "CJDgD",
+                    "elements":
+                    [
+                        {
+                            "type": "rich_text_section",
+                            "elements":
+                            [
+                                {
+                                    "type": "text",
+                                    "text": "I think yes - because that's where we add value"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "user": "U09DVNAD36K",
+            "type": "message",
+            "ts": "1757486491.063019",
+            "client_msg_id": "3cb950d0-6d52-4089-bd9f-0f09264f0c76",
+            "text": "not yet, but is it needed?",
+            "team": "T09DVNACUQP",
+            "blocks":
+            [
+                {
+                    "type": "rich_text",
+                    "block_id": "/hWz9",
+                    "elements":
+                    [
+                        {
+                            "type": "rich_text_section",
+                            "elements":
+                            [
+                                {
+                                    "type": "text",
+                                    "text": "not yet, but is it needed?"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "has_more": true,
+    "pin_count": 0,
+    "channel_actions_ts": null,
+    "channel_actions_count": 0,
+    "response_metadata":
+    {
+        "next_cursor": "bmV4dF90czoxNzU3NDg0MzYxMzE2OTE5"
+    }
+}
