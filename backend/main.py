@@ -3,15 +3,42 @@ from slack.endpoints import router as slack_router
 from dotenv import load_dotenv
 load_dotenv()
 
+# Import routers
+try:
+    from github.github_router import router as github_router
+    GITHUB_ROUTER_AVAILABLE = True
+except ImportError as e:
+    print(f"Warning: GitHub router not available: {e}")
+    GITHUB_ROUTER_AVAILABLE = False
+
 # Create FastAPI instance
 app = FastAPI(
-    title="Slack Message Retrieval API",
-    description="API for retrieving Slack messages with context and replies",
+    title="TLean Backend API",
+    description="Backend API for TLean - GitHub PR processing and action item generation",
     version="1.0.0"
 )
 
+# Include routers
+if GITHUB_ROUTER_AVAILABLE:
+    app.include_router(github_router)
+    
+    
 # Include Slack router
 app.include_router(slack_router)
+
+# Root endpoint
+@app.get("/")
+async def root():
+    return {
+        "message": "TLean Backend API",
+        "version": "1.0.0",
+        "available_endpoints": {
+            "health": "/health",
+            "github": "/github/prs" if GITHUB_ROUTER_AVAILABLE else "Not available",
+            "docs": "/docs"
+        }
+    }
+
 
 # Hello endpoint with a path parameter
 @app.get("/hello/{name}")
@@ -21,4 +48,7 @@ async def say_hello(name: str):
 # Health check endpoint
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy"}
+    return {
+        "status": "healthy",
+        "github_integration": "available" if GITHUB_ROUTER_AVAILABLE else "unavailable"
+    }

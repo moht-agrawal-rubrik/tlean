@@ -28,6 +28,7 @@ class GitHubCandidateGenerator:
     """
     
     def __init__(self, github_token: Optional[str] = None):
+        print("starting github candidate generator")
         """
         Initialize the GitHub candidate generator.
         
@@ -361,18 +362,6 @@ class GitHubCandidateGenerator:
             search_url = f"{self.base_url}/search/issues"
             query = f"type:pr author:{username} state:{state}"
 
-            log_data = {
-                "search_url": search_url,
-                "params": {
-                    'q': query,
-                    'per_page': limit,
-                    'sort': 'updated',
-                    'order': 'desc'
-                }
-            }
-
-            print(log_data)
-
             response = self.session.get(search_url, params={
                 'q': query,
                 'per_page': limit,
@@ -452,7 +441,7 @@ def get_github_user_candidates(username: str, github_token: Optional[str] = None
     return generator.fetch_user_prs(username, state, limit)
 
 
-github_token = os.getenv('GITHUB_TOKEN')
-res = get_github_user_candidates('moht-agrawal-rubrik', github_token)
-print(json.dumps(res, indent=2))
+# github_token = os.getenv('GITHUB_TOKEN')
+# res = get_github_user_candidates('moht-agrawal-rubrik', github_token)
+# print(json.dumps(res, indent=2))
 
