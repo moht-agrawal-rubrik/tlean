@@ -79,21 +79,16 @@ class SlackMessageAnalyzer:
 
         try:
             # Use the updated SlackConversationAnalyzer
-            logger.info("🔄 Using SlackConversationAnalyzer for LLM analysis...")
-            logger.info(f"   📝 Message: {message_preview}")
-            logger.info(f"   👤 Target user: {target_user_id}")
-            logger.info(f"   📊 Context: {len(context.previous_messages)} prev, {len(context.next_messages)} next, {len(context.replies)} replies")
+            logger.debug("🔄 Using SlackConversationAnalyzer for LLM analysis...")
+            logger.debug(f"   📝 Message: {message_preview}")
+            logger.debug(f"   👤 Target user: {target_user_id}")
+            logger.debug(f"   📊 Context: {len(context.previous_messages)} prev, {len(context.next_messages)} next, {len(context.replies)} replies")
 
             # Get LLM analysis using the updated analyzer
-            logger.info("⏳ Calling SlackConversationAnalyzer...")
-            logger.info("🚀 STARTING DETAILED LLM LOGGING (see below for complete input/output)")
-
             response_content = self.conversation_analyzer.analyze_conversation_context(
                 message_context=context,
                 target_user_id=target_user_id
             )
-
-            logger.info("✅ SlackConversationAnalyzer completed successfully")
 
             # Parse LLM response
             logger.debug("🔍 Parsing LLM response...")
@@ -320,7 +315,7 @@ def analyze_message_contexts(
 
     for i, context in enumerate(contexts, 1):
         message_ts = context.original_message.ts
-        logger.info(f"📊 Processing message {i}/{len(contexts)} (ts: {message_ts})")
+        logger.debug(f"📊 Processing message {i}/{len(contexts)} (ts: {message_ts})")
 
         try:
             result = analyzer.analyze_message_context(context, target_user_id)
@@ -351,8 +346,8 @@ def analyze_message_contexts(
     medium_attention = sum(1 for r in results if 0.3 < r.score <= 0.6)
     low_attention = sum(1 for r in results if r.score <= 0.3)
 
-    logger.info(f"   🚨 High attention (>0.6): {high_attention}")
-    logger.info(f"   ⚠️  Medium attention (0.3-0.6): {medium_attention}")
-    logger.info(f"   ℹ️  Low attention (≤0.3): {low_attention}")
+    logger.debug(f"   🚨 High attention (>0.6): {high_attention}")
+    logger.debug(f"   ⚠️  Medium attention (0.3-0.6): {medium_attention}")
+    logger.debug(f"   ℹ️  Low attention (≤0.3): {low_attention}")
 
     return results
