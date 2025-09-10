@@ -1,12 +1,36 @@
 from fastapi import FastAPI
 
+# Import routers
+try:
+    from github.github_router import router as github_router
+    GITHUB_ROUTER_AVAILABLE = True
+except ImportError as e:
+    print(f"Warning: GitHub router not available: {e}")
+    GITHUB_ROUTER_AVAILABLE = False
+
 # Create FastAPI instance
-app = FastAPI()
+app = FastAPI(
+    title="TLean Backend API",
+    description="Backend API for TLean - GitHub PR processing and action item generation",
+    version="1.0.0"
+)
+
+# Include routers
+if GITHUB_ROUTER_AVAILABLE:
+    app.include_router(github_router)
 
 # Root endpoint
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {
+        "message": "TLean Backend API",
+        "version": "1.0.0",
+        "available_endpoints": {
+            "health": "/health",
+            "github": "/github/prs" if GITHUB_ROUTER_AVAILABLE else "Not available",
+            "docs": "/docs"
+        }
+    }
 
 # Hello endpoint with a path parameter
 @app.get("/hello/{name}")
@@ -16,4 +40,7 @@ async def say_hello(name: str):
 # Health check endpoint
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy"}
+    return {
+        "status": "healthy",
+        "github_integration": "available" if GITHUB_ROUTER_AVAILABLE else "unavailable"
+    }

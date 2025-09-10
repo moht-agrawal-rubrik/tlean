@@ -7,10 +7,25 @@ import math
 from datetime import datetime, timezone
 from typing import Dict, List, Any, Optional
 
+try:
+    from .diff_analyzer import (
+        DiffAnalyzer,
+        create_enhanced_summary_with_diff_analysis,
+        ActionItemGenerator,
+        generate_action_items_from_comments
+    )
+except ImportError:
+    from diff_analyzer import (
+        DiffAnalyzer,
+        create_enhanced_summary_with_diff_analysis,
+        ActionItemGenerator,
+        generate_action_items_from_comments
+    )
+
 
 class PRProcessor:
     """Processes GitHub PR data into the required candidate format."""
-    
+
     # Bot patterns to filter out automated comments
     BOT_PATTERNS = [
         'rubrik-alfred[bot]',
@@ -20,10 +35,21 @@ class PRProcessor:
         'SD-111029',  # Automated system account
         '[bot]'  # Generic bot pattern
     ]
-    
-    def __init__(self):
-        """Initialize the processor."""
-        pass
+
+    def __init__(self, enable_diff_analysis: bool = True, enable_llm_action_items: bool = True, use_openai: bool = True):
+        """
+        Initialize the processor.
+
+        Args:
+            enable_diff_analysis: Whether to enable LLM-powered diff analysis
+            enable_llm_action_items: Whether to enable LLM-powered action item generation
+            use_openai: Whether to use OpenAI for LLM analysis
+        """
+        self.enable_diff_analysis = enable_diff_analysis
+        self.enable_llm_action_items = enable_llm_action_items
+        self.use_openai = use_openai
+        self.diff_analyzer = DiffAnalyzer(use_openai=use_openai) if enable_diff_analysis else None
+        self.action_item_generator = ActionItemGenerator(use_openai=use_openai) if enable_llm_action_items else None
     
     def process_pr_data(self, raw_pr_data: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -92,71 +118,99 @@ class PRProcessor:
         return title
     
     def _generate_summary(self, pr_data: Dict[str, Any]) -> str:
-        """Generate a comprehensive summary (max 1000 characters)."""
+        """Generate a comprehensive summary with intelligent diff analysis (max 1000 characters)."""
+
+        # Use enhanced diff analysis if enabled
+        if self.enable_diff_analysis and self.diff_analyzer:
+            try:
+                return create_enhanced_summary_with_diff_analysis(pr_data, self.diff_analyzer, self.use_openai)
+            except Exception as e:
+                # Fall back to traditional summary if diff analysis fails
+                print(f"Warning: Diff analysis failed: {e}")
+
+        # Traditional summary generation (fallback)
+        return self._generate_traditional_summary(pr_data)
+
+    def _generate_traditional_summary(self, pr_data: Dict[str, Any]) -> str:
+        """Generate traditional summary from PR description and metadata."""
         pr_summary = pr_data.get('pr_summary', '')
         metadata = pr_data.get('metadata', {})
-        
+
         # Extract key information
         author = metadata.get('author', 'Unknown')
         state = metadata.get('state', 'unknown')
         reviewers = metadata.get('reviewers', [])
         assignees = metadata.get('assignees', [])
-        
+
         # Build summary
         summary_parts = []
-        
+
         # Add PR description (truncated)
         if pr_summary:
             # Clean up the summary (remove markdown artifacts)
             clean_summary = re.sub(r'#{1,6}\s+', '', pr_summary)  # Remove headers
             clean_summary = re.sub(r'\r\n|\r|\n', ' ', clean_summary)  # Replace newlines
             clean_summary = re.sub(r'\s+', ' ', clean_summary).strip()  # Normalize whitespace
-            
+
             if len(clean_summary) > 400:
                 clean_summary = clean_summary[:397] + "..."
             summary_parts.append(clean_summary)
-        
+
         # Add metadata information
         meta_info = f"Author: {author}, State: {state}"
         if reviewers:
             meta_info += f", Reviewers: {len(reviewers)}"
         if assignees:
             meta_info += f", Assignees: {len(assignees)}"
-        
+
         summary_parts.append(meta_info)
-        
-        # Combine and ensure length limit
-        full_summary = ". ".join(summary_parts)
+
+        # Combine with newlines for better formatting
+        full_summary = "\n".join(summary_parts)
         if len(full_summary) > 1000:
             full_summary = full_summary[:997] + "..."
-        
+
         return full_summary
     
     def _generate_action_items(self, pr_data: Dict[str, Any]) -> List[str]:
-        """Generate action items from PR data."""
+        """Generate action items from PR data using LLM or heuristic analysis."""
+        # Use LLM-based action item generation if available
+        if self.enable_llm_action_items and self.action_item_generator:
+            try:
+                analysis = self.action_item_generator.generate_action_items(pr_data)
+                return analysis.action_items
+            except Exception as e:
+                print(f"Warning: LLM action item generation failed, falling back to heuristic: {e}")
+                # Fall through to heuristic method
+
+        # Fallback to original heuristic method
+        return self._generate_action_items_heuristic(pr_data)
+
+    def _generate_action_items_heuristic(self, pr_data: Dict[str, Any]) -> List[str]:
+        """Generate action items using heuristic analysis (original method)."""
         action_items = []
-        
+
         # Get comments and metadata
         comments = pr_data.get('comments', {})
         global_comments = comments.get('global_comments', [])
         inline_comments = comments.get('inline_comments', [])
         metadata = pr_data.get('metadata', {})
         author = metadata.get('author', '')
-        
+
         # Filter out bot comments
         human_global_comments = [c for c in global_comments if not self._is_bot_comment(c)]
         human_inline_comments = [c for c in inline_comments if not self._is_bot_comment(c)]
-        
+
         # Find pending responses in global comments
         pending_global = self._find_pending_responses(human_global_comments, author)
         if pending_global > 0:
             action_items.append(f"Respond to {pending_global} pending discussion comment(s)")
-        
+
         # Find pending responses in inline comments
         pending_inline = self._find_pending_responses(human_inline_comments, author)
         if pending_inline > 0:
             action_items.append(f"Address {pending_inline} pending code review comment(s)")
-        
+
         # Check PR state for additional actions
         state = metadata.get('state', '')
         if state == 'open':
@@ -165,18 +219,18 @@ class PRProcessor:
                 action_items.append("Await reviewer approval")
             else:
                 action_items.append("Request code review")
-        
+
         # Check for merge conflicts or CI failures (if indicated in comments)
         for comment in human_global_comments:
             body = comment.get('body', '').lower()
             if 'conflict' in body or 'merge conflict' in body:
                 action_items.append("Resolve merge conflicts")
                 break
-        
+
         # If no specific actions found, add a general review action
         if not action_items and state == 'open':
             action_items.append("Review and merge PR")
-        
+
         return action_items
     
     def _is_bot_comment(self, comment: Dict[str, Any]) -> bool:
@@ -326,15 +380,6 @@ class PRProcessor:
         return raw_score
 
 
-def process_github_pr_data(raw_pr_data: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    Convenience function to process a single PR data object.
-    
-    Args:
-        raw_pr_data: Raw PR data from GitHub API
-        
-    Returns:
-        Processed data in guidelines.md format
-    """
-    processor = PRProcessor()
+def process_github_pr_data(raw_pr_data: Dict[str, Any], enable_diff_analysis: bool = True, use_openai: bool = True) -> Dict[str, Any]:
+    processor = PRProcessor(enable_diff_analysis=enable_diff_analysis, use_openai=use_openai)
     return processor.process_pr_data(raw_pr_data)

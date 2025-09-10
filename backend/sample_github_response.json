@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "message": "Successfully fetched 4 PRs for user moht-agrawal-rubrik",
+  "data": [
+    {
+      "source": "github",
+      "link": "https://github.com/scaledata/sdmain/pull/97449",
+      "timestamp": "2025-09-02 06:40:19",
+      "title": "PR #97449: Add RBAC test for the bulk secondary register host",
+      "long_summary": "Modified 10 files. (+212/-10 lines). - tests\n\nKey changes:\n• polaris/src/rubrik/api-server/app/services/physicalhost/rbac/BUILD.bazel: Added dependencies on proto_deps and common-scala to the rkscala_library build target\n• polaris/src/rubrik/sdk_internal/grpc/physicalhost_pb2_grpc.py: Updated docstring for BulkRegisterSecondaryHosts method to include parameter description and removed TODO comment.\n• polaris/src/rubrik/api-server/test/app/services/physicalhost/rbac/BUILD.bazel: Added Bazel test target for physicalhost RBAC Scala tests with required dependencies and JVM config\n\nAuthor: moht-agrawal-rubrik, State: open, Reviewers: 3",
+      "action_items": [
+        "Clarify which output is being referenced in Comment 2 regarding the proto comments mismatch.",
+        "Confirm whether the string_to_uuid transform should be applied and if it will function as expected in this context.",
+        "Respond to the question in Comment 4 about the necessity of calling fetcher for the RBAC check.",
+        "Double-check if passing \"UNSPECIFIED\" or *EMPTY_VALUE for HostRegisterOsType is needed, and update the code if not required.",
+        "Consider providing benchmarking data or further justification regarding the performance discussion in Comment 6."
+      ],
+      "score": 0.452455932104785
+    },
+    {
+      "source": "github",
+      "link": "https://github.com/scaledata/sdmain/pull/97821",
+      "timestamp": "2025-09-03 06:09:01",
+      "title": "PR #97821: Send audits for failed secondary host registration",
+      "long_summary": "Modified 9 files. (+133/-9 lines). - config\n\nKey changes:\n• polaris/src/rubrik/common-go/audits/templates/cdm-host.yml: Added RegisterSecondaryHostFailure audit event template with messaging, status, severity, and syslog configuration.\n• polaris/src/rubrik/physicalhost/cmd/flags.go: Added message queue configuration to config struct and initialized it in parseArgs function\n• polaris/src/rubrik/physicalhost/cmd/BUILD.bazel: Added dependencies on audits and message-queue libraries to the go_library target\n\nAuthor: moht-agrawal-rubrik, State: open, Reviewers: 2",
+      "action_items": [
+        "Refactor physicalhost_service.py to use `env_vars = super().env(realm, deployment, config)` and append custom envs as requested.",
+        "Respond to Arqum212's question regarding whether a mail and audit are sent for each host failure in primary registration, clarifying the current behavior and any limitations in testing."
+      ],
+      "score": 0.411424111765712
+    },
+    {
+      "source": "github",
+      "link": "https://github.com/scaledata/sdmain/pull/97450",
+      "timestamp": "2025-09-02 06:41:23",
+      "title": "PR #97450: Implement bulk register secondary host rpc",
+      "long_summary": "Modified 6 files. - config, logic\n\nKey changes:\n• polaris/src/rubrik/physicalhost/errors/errors.go: Removed two blank lines from the ToProtobufError function; no functional changes made\n• polaris/src/rubrik/physicalhost/cmd/BUILD.bazel: Added dependencies on authz-service and cdm-rest-service proto libraries to the go_library target\n• polaris/src/rubrik/physicalhost/cmd/flags.go: Added authzServiceAddr and cdmRestSvcAddr fields to config struct and initialized them in parseArgs function\n\nAuthor: moht-agrawal-rubrik, State: open",
+      "action_items": [
+        "Request code review"
+      ],
+      "score": 0.536218688535206
+    },
+    {
+      "source": "github",
+      "link": "https://github.com/scaledata/sdmain/pull/97551",
+      "timestamp": "2025-09-02 11:32:33",
+      "title": "PR #97551: Add unit tests for bulk secondary registration api",
+      "long_summary": "Modified polaris/src/rubrik/physicalhost/svc/BUILD.bazel. - tests\n\nKey changes:\n• polaris/src/rubrik/physicalhost/svc/BUILD.bazel: Added go_test target for bulk_secondary_registration_test.go with necessary dependencies\n\nAuthor: moht-agrawal-rubrik, State: open",
+      "action_items": [
+        "Request code review"
+      ],
+      "score": 0.526424111765712
+    }
+  ],
+  "total_count": 4
+}
