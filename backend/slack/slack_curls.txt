@@ -1,0 +1,25 @@
+slack curls
+
+1st step
+
+curl "https://slack.com/api/search.messages?query=@satya.prakash&sort=timestamp" \
+-H "Authorization: Bearer xoxp-*****"
+
+
+2nd step
+
+4 last messages
+
+curl "https://slack.com/api/conversations.history?channel=D09E7BBKUE9&latest=1757486516.496349&limit=10&inclusive=true" \
+-H "Authorization: Bearer xoxp-*****"
+
+4 next messages
+
+curl "https://slack.com/api/conversations.history?channel=D09E7BBKUE9&oldest=1757486516.496349&limit=10&inclusive=true" \
+-H "Authorization: Bearer xoxp-*****"
+
+
+replies to that message
+
+curl "https://slack.com/api/conversations.replies?channel=D09E7BBKUE9&ts=1757486516.496349" \
+-H "Authorization: Bearer xoxp-*****"
