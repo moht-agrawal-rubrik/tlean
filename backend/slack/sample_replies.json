@@ -1,0 +1,88 @@
+{
+    "ok": true,
+    "messages":
+    [
+        {
+            "user": "U09E7BBEB9T",
+            "type": "message",
+            "ts": "1757486516.496349",
+            "client_msg_id": "28719263-8f20-432e-b214-1115ec045396",
+            "text": "<@U09DVNAD36K> any updates on this?",
+            "team": "T09DVNACUQP",
+            "thread_ts": "1757486516.496349",
+            "reply_count": 1,
+            "reply_users_count": 1,
+            "latest_reply": "1757487675.930579",
+            "reply_users":
+            [
+                "U09DVNAD36K"
+            ],
+            "is_locked": false,
+            "subscribed": true,
+            "last_read": "1757487675.930579",
+            "blocks":
+            [
+                {
+                    "type": "rich_text",
+                    "block_id": "OVS2B",
+                    "elements":
+                    [
+                        {
+                            "type": "rich_text_section",
+                            "elements":
+                            [
+                                {
+                                    "type": "user",
+                                    "user_id": "U09DVNAD36K"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": " any updates on this?"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "user": "U09DVNAD36K",
+            "type": "message",
+            "ts": "1757487675.930579",
+            "client_msg_id": "2f3d1f5c-44e5-4d01-a4ac-b2feadb70a55",
+            "text": "hey <@U09E7BBEB9T> this is done.",
+            "team": "T09DVNACUQP",
+            "thread_ts": "1757486516.496349",
+            "parent_user_id": "U09E7BBEB9T",
+            "blocks":
+            [
+                {
+                    "type": "rich_text",
+                    "block_id": "cM0av",
+                    "elements":
+                    [
+                        {
+                            "type": "rich_text_section",
+                            "elements":
+                            [
+                                {
+                                    "type": "text",
+                                    "text": "hey "
+                                },
+                                {
+                                    "type": "user",
+                                    "user_id": "U09E7BBEB9T"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": " this is done."
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "has_more": false
+}
