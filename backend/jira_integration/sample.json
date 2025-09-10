@@ -1,0 +1,929 @@
+🧪 JIRA JSON Output Test Suite
+==================================================
+🔍 Testing JIRA JSON Output Generation
+==================================================
+📋 Fetching JIRA issues and generating JSON output...
+Processing JIRA issue: SPARK-610507
+Processing JIRA issue: SPARK-608539
+Processing JIRA issue: SPARK-608536
+Processing JIRA issue: SPARK-608099
+Processing JIRA issue: SPARK-605306
+Processing JIRA issue: SPARK-602562
+Processing JIRA issue: SPARK-602231
+Processing JIRA issue: SPARK-602074
+Processing JIRA issue: SPARK-601066
+Processing JIRA issue: SPARK-601063
+Processing JIRA issue: SPARK-600382
+Processing JIRA issue: SPARK-595912
+Processing JIRA issue: SPARK-595566
+Processing JIRA issue: SPARK-593284
+Processing JIRA issue: SPARK-581533
+Processing JIRA issue: SPARK-576702
+Processing JIRA issue: SPARK-574747
+Processing JIRA issue: SPARK-572198
+Processing JIRA issue: SPARK-572187
+Processing JIRA issue: SPARK-572186
+Processing JIRA issue: SPARK-572184
+Processing JIRA issue: SPARK-551265
+Processing JIRA issue: SPARK-549770
+Processing JIRA issue: SPARK-545215
+Processing JIRA issue: SPARK-544407
+Processing JIRA issue: SPARK-540664
+Processing JIRA issue: SPARK-540650
+Processing JIRA issue: SPARK-540294
+Processing JIRA issue: SPARK-539617
+Processing JIRA issue: SPARK-539078
+Processing JIRA issue: SPARK-539077
+Processing JIRA issue: SPARK-519860
+Processing JIRA issue: SPARK-519859
+Processing JIRA issue: SPARK-519857
+Processing JIRA issue: SPARK-519855
+Processing JIRA issue: INFRA-77508
+Processing JIRA issue: CDM-508927
+Processing JIRA issue: CDM-505514
+Processing JIRA issue: CDM-504545
+Processing JIRA issue: CDM-504426
+Processing JIRA issue: CDM-502488
+Processing JIRA issue: CDM-502270
+Processing JIRA issue: CDM-501875
+Processing JIRA issue: CDM-501874
+Processing JIRA issue: CDM-500262
+Processing JIRA issue: CDM-500248
+Processing JIRA issue: CDM-499468
+Processing JIRA issue: CDM-491887
+Processing JIRA issue: CDM-491771
+Processing JIRA issue: CDM-491638
+Processing JIRA issue: CDM-489984
+Processing JIRA issue: CDM-488643
+Processing JIRA issue: CDM-488633
+Processing JIRA issue: CDM-488539
+Processing JIRA issue: CDM-487995
+Processing JIRA issue: CDM-487925
+Processing JIRA issue: CDM-481385
+Processing JIRA issue: CDM-480964
+Processing JIRA issue: CDM-480251
+Processing JIRA issue: CDM-476021
+Processing JIRA issue: CDM-475044
+Processing JIRA issue: CDM-349453
+✅ Successfully processed 62 JIRA issues
+
+📄 JSON Output:
+==================================================
+[
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-610507",
+    "timestamp": "2025-08-26 00:16:31",
+    "title": "SPARK-610507: UFF Change Request  - percentage-rollout request for feature flag: RBS_ALLOW_REMOTE_INSTALLATION",
+    "long_summary": "How to use the sp-uff tool: [sp-uff |https://rubrik.atlassian.net/wiki/spaces/EN/pages/3704127791/sp-uff+Tool+for+Unified+Feature+Flag]\n\n*Approvals Required:*\n\n# *Feature Team approval* :Mandatory for all flag changes. This approval has to be provided by a member of the \"feature-release-approvers\" Google Group, *other than the person raising the request*. To add members of\nyour team to this group, please email help@rubrik.com. Ideally, only managers and leads should be included in this group.\n# *Trident/FedRamp PgM approval* : Only if the environment is RSC-P or RSC-G.\n# *SRE Approval* (for first beta and GA rollout): Refer to: [SRE Feature Rollout Guidelines|https://rubrik.atlassian.net/wiki/spaces/SPARK/pages/3532554262/Feature+Rollout+Guidelines]\n\n*Note*:All approvals need to be provided *on the LD request page itself*, individually for each LD request on the Jira.\n\nAuto Approval Workflow:[UFF Auto Approval|https://rubrik.atlassian.net/wiki/spaces/EN/pages/4102455618/UFF+Auto+App...",
+    "action_items": [
+      "Obtain Feature Team approval from a member of the 'feature-release-approvers' Google Group (excluding the requester).",
+      "Obtain SRE Team approval for the percentage rollout change, as per SRE Feature Rollout Guidelines.",
+      "Ensure all required approvals are provided on the LD request page for this specific LaunchDarkly request.",
+      "Notify relevant stakeholders (Feature Team, SRE Team) about the applied rollout change and pending approvals.",
+      "Monitor the rollout for any issues or feedback after the change has been applied.",
+      "If environment is RSC-P or RSC-G, confirm whether Trident/FedRamp PgM approval is needed."
+    ],
+    "score": 0.8
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-608539",
+    "timestamp": "2025-08-24 01:44:59",
+    "title": "SPARK-608539: UFF Change Request  - enable request for feature flag: RBS_ALLOW_REMOTE_INSTALLATION",
+    "long_summary": "How to use the sp-uff tool: [sp-uff |https://rubrik.atlassian.net/wiki/spaces/EN/pages/3704127791/sp-uff+Tool+for+Unified+Feature+Flag]\n\n*Approvals Required:*\n\n# *Feature Team approval* :Mandatory for all flag changes. This approval has to be provided by a member of the \"feature-release-approvers\" Google Group, *other than the person raising the request*. To add members of\nyour team to this group, please email help@rubrik.com. Ideally, only managers and leads should be included in this group.\n# *Trident/FedRamp PgM approval* : Only if the environment is RSC-P or RSC-G.\n# *SRE Approval* (for first beta and GA rollout): Refer to: [SRE Feature Rollout Guidelines|https://rubrik.atlassian.net/wiki/spaces/SPARK/pages/3532554262/Feature+Rollout+Guidelines]\n\n*Note*:All approvals need to be provided *on the LD request page itself*, individually for each LD request on the Jira.\n\nAuto Approval Workflow:[UFF Auto Approval|https://rubrik.atlassian.net/wiki/spaces/EN/pages/4102455618/UFF+Auto+App...",
+    "action_items": [
+      "Obtain Feature Team approval from a member of the 'feature-release-approvers' Google Group (other than the requester).",
+      "Ensure approval is provided directly on the LD request page for the specific LaunchDarkly request.",
+      "Verify if Trident/FedRamp PgM approval is required (only if environment is RSC-P or RSC-G); obtain if necessary.",
+      "Check if SRE approval is needed for beta or GA rollout; follow SRE Feature Rollout Guidelines and obtain approval if required.",
+      "Confirm that all required approvals are documented and visible on the LD request page.",
+      "Notify stakeholders once all approvals are complete and the feature flag is enabled."
+    ],
+    "score": 0.8
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-608536",
+    "timestamp": "2025-08-24 01:45:01",
+    "title": "SPARK-608536: UFF Change Request  - enable request for feature flag: RBS_ALLOW_REMOTE_INSTALLATION",
+    "long_summary": "How to use the sp-uff tool: [sp-uff |https://rubrik.atlassian.net/wiki/spaces/EN/pages/3704127791/sp-uff+Tool+for+Unified+Feature+Flag]\n\n*Approvals Required:*\n\n# *Feature Team approval* :Mandatory for all flag changes. This approval has to be provided by a member of the \"feature-release-approvers\" Google Group, *other than the person raising the request*. To add members of\nyour team to this group, please email help@rubrik.com. Ideally, only managers and leads should be included in this group.\n# *Trident/FedRamp PgM approval* : Only if the environment is RSC-P or RSC-G.\n# *SRE Approval* (for first beta and GA rollout): Refer to: [SRE Feature Rollout Guidelines|https://rubrik.atlassian.net/wiki/spaces/SPARK/pages/3532554262/Feature+Rollout+Guidelines]\n\n*Note*:All approvals need to be provided *on the LD request page itself*, individually for each LD request on the Jira.\n\nAuto Approval Workflow:[UFF Auto Approval|https://rubrik.atlassian.net/wiki/spaces/EN/pages/4102455618/UFF+Auto+App...",
+    "action_items": [
+      "Obtain Feature Team approval from a member of the 'feature-release-approvers' Google Group (excluding the requester).",
+      "Ensure approval is provided directly on the LaunchDarkly LD request page for the specific flag change.",
+      "Verify if Trident/FedRamp PgM approval is needed (only if environment is RSC-P or RSC-G); if so, initiate approval process.",
+      "Confirm if SRE approval is required for beta or GA rollout; if applicable, follow SRE Feature Rollout Guidelines and obtain approval.",
+      "Notify all relevant stakeholders (Feature Team, PgM, SRE) about the approval requirements and current status.",
+      "Monitor the LD request page for approval updates and follow up with approvers if necessary.",
+      "Document all approvals and actions taken in the JIRA issue for audit and tracking purposes."
+    ],
+    "score": 0.78
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-608099",
+    "timestamp": "2025-09-04 21:08:38",
+    "title": "SPARK-608099: Hook up physicalhost service with api-v2",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-605306",
+    "timestamp": "2025-08-20 02:14:13",
+    "title": "SPARK-605306: UFF Change Request  - percentage-rollout request for feature flag: RBS_ALLOW_REMOTE_INSTALLATION",
+    "long_summary": "How to use the sp-uff tool: [sp-uff |https://rubrik.atlassian.net/wiki/spaces/EN/pages/3704127791/sp-uff+Tool+for+Unified+Feature+Flag]\n\n*Approvals Required:*\n\n# *Feature Team approval* :Mandatory for all flag changes. This approval has to be provided by a member of the \"feature-release-approvers\" Google Group, *other than the person raising the request*. To add members of\nyour team to this group, please email help@rubrik.com. Ideally, only managers and leads should be included in this group.\n# *Trident/FedRamp PgM approval* : Only if the environment is RSC-P or RSC-G.\n# *SRE Approval* (for first beta and GA rollout): Refer to: [SRE Feature Rollout Guidelines|https://rubrik.atlassian.net/wiki/spaces/SPARK/pages/3532554262/Feature+Rollout+Guidelines]\n\n*Note*:All approvals need to be provided *on the LD request page itself*, individually for each LD request on the Jira.\n\nAuto Approval Workflow:[UFF Auto Approval|https://rubrik.atlassian.net/wiki/spaces/EN/pages/4102455618/UFF+Auto+App...",
+    "action_items": [
+      "Obtain Feature Team approval from a member of the 'feature-release-approvers' Google Group (excluding the requester).",
+      "Obtain SRE Team approval for the percentage rollout change, as required for first beta and GA rollouts.",
+      "Ensure all required approvals are provided directly on the LaunchDarkly (LD) request page for this flag change.",
+      "Notify relevant stakeholders (Feature Team, SRE Team) about the pending approvals and provide them with the LD approval request link.",
+      "Monitor the rollout for any issues or feedback after the change has been applied.",
+      "Document the approval and rollout process in the appropriate project tracking tools."
+    ],
+    "score": 0.75
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-602562",
+    "timestamp": "2025-08-31 22:50:27",
+    "title": "SPARK-602562: [Navy Federal Credit Union] RBS Upgrade Status column is missing",
+    "long_summary": "*Customer:* Navy Federal Credit Union\n\n*RSC URL:* [https://navyfederal.my.rubrik.com|https://navyfederal.my.rubrik.com/]\n\n*Summary*\nRBS Upgrade Status column is missing\n\n*Customer impact and current status*\nRBS Upgrade Status column is missing\n\n*Support analysis*\nRBS Upgrade Status column is missing\n\n!image-20250814-210002.png|width=1959,height=1050,alt=\"image-20250814-210002.png\"!\n\n!image-20250814-210017.png|width=1964,height=1042,alt=\"image-20250814-210017.png\"!\n\n\n\nAll but one Rubrik cluster is running CDM 9.3.1+ \n\n!image-20250814-210049.png|width=1978,height=994,alt=\"image-20250814-210049.png\"!\n\nI\u2019ve seen the RBS Upgrade Status column on other RSC instances running v20250804\n\n!image-20250814-210034.png|width=607,height=509,alt=\"image-20250814-210034.png\"!\n\n\n\n*What is being requested of Engineering*\nWhy is RBS Upgrade Status column missing?",
+    "action_items": [
+      "Verify that the fix for the missing RBS Upgrade Status column has been properly implemented and tested in the relevant environment.",
+      "Ensure all associated pull requests are merged and labeled 'LANDED' as per Atlassian Admin's comment.",
+      "Perform a Root Cause Analysis (RCA) and document findings before final closure, as requested in recent comments.",
+      "Communicate resolution and RCA details to Navy Federal Credit Union and confirm that the issue is resolved from their perspective.",
+      "Coordinate with Mohit Agrawal (assignee) and any relevant engineering/support teams to complete outstanding steps."
+    ],
+    "score": 0.45
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-602231",
+    "timestamp": "2025-08-14 03:36:10",
+    "title": "SPARK-602231: UFF Change Request  - enable request for feature flag: RBS_ALLOW_REMOTE_INSTALLATION",
+    "long_summary": "How to use the sp-uff tool: [sp-uff |https://rubrik.atlassian.net/wiki/spaces/EN/pages/3704127791/sp-uff+Tool+for+Unified+Feature+Flag]\n\n*Approvals Required:*\n\n# *Feature Team approval* :Mandatory for all flag changes. This approval has to be provided by a member of the \"feature-release-approvers\" Google Group, *other than the person raising the request*. To add members of\nyour team to this group, please email help@rubrik.com. Ideally, only managers and leads should be included in this group.\n# *Trident/FedRamp PgM approval* : Only if the environment is RSC-P or RSC-G.\n# *SRE Approval* (for first beta and GA rollout): Refer to: [SRE Feature Rollout Guidelines|https://rubrik.atlassian.net/wiki/spaces/SPARK/pages/3532554262/Feature+Rollout+Guidelines]\n\n*Note*:All approvals need to be provided *on the LD request page itself*, individually for each LD request on the Jira.\n\nAuto Approval Workflow:[UFF Auto Approval|https://rubrik.atlassian.net/wiki/spaces/EN/pages/4102455618/UFF+Auto+App...",
+    "action_items": [
+      "Obtain Feature Team approval from a member of the 'feature-release-approvers' Google Group (excluding the requester).",
+      "Ensure all required approvals are provided on the LaunchDarkly (LD) request page for the feature flag RBS_ALLOW_REMOTE_INSTALLATION.",
+      "Verify that the applied change has been successfully reflected in the target environment (rsc-c).",
+      "Notify relevant stakeholders (Feature Team, SRE if applicable) about the status of the feature flag enablement.",
+      "Document the approval and rollout process in the appropriate project tracking tools or wiki as per guidelines.",
+      "Monitor for any issues post-application and be prepared to roll back if necessary."
+    ],
+    "score": 0.75
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-602074",
+    "timestamp": "2025-08-14 01:40:56",
+    "title": "SPARK-602074: UFF Change Request  - enable request for feature flag: RBS_ALLOW_REMOTE_INSTALLATION",
+    "long_summary": "How to use the sp-uff tool: [sp-uff |https://rubrik.atlassian.net/wiki/spaces/EN/pages/3704127791/sp-uff+Tool+for+Unified+Feature+Flag]\n\n*Approvals Required:*\n\n# *Feature Team approval* :Mandatory for all flag changes. This approval has to be provided by a member of the \"feature-release-approvers\" Google Group, *other than the person raising the request*. To add members of\nyour team to this group, please email help@rubrik.com. Ideally, only managers and leads should be included in this group.\n# *Trident/FedRamp PgM approval* : Only if the environment is RSC-P or RSC-G.\n# *SRE Approval* (for first beta and GA rollout): Refer to: [SRE Feature Rollout Guidelines|https://rubrik.atlassian.net/wiki/spaces/SPARK/pages/3532554262/Feature+Rollout+Guidelines]\n\n*Note*:All approvals need to be provided *on the LD request page itself*, individually for each LD request on the Jira.\n\nAuto Approval Workflow:[UFF Auto Approval|https://rubrik.atlassian.net/wiki/spaces/EN/pages/4102455618/UFF+Auto+App...",
+    "action_items": [
+      "Obtain Feature Team approval from a member of the 'feature-release-approvers' Google Group (excluding the requester).",
+      "Ensure all required approvals are provided on the LaunchDarkly request page for the flag RBS_ALLOW_REMOTE_INSTALLATION.",
+      "Verify that the change has been successfully applied and is functioning as expected.",
+      "If the environment is RSC-P or RSC-G, obtain Trident/FedRamp PgM approval.",
+      "If this is the first beta or GA rollout, obtain SRE approval as per the Feature Rollout Guidelines.",
+      "Notify relevant stakeholders (e.g., feature team, SRE, PgM) once all approvals are completed.",
+      "Document the approval and rollout process in the JIRA issue for audit purposes."
+    ],
+    "score": 0.7
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-601066",
+    "timestamp": "2025-08-12 21:22:01",
+    "title": "SPARK-601066: UFF Change Request  - percentage-rollout request for feature flag: RBS_ALLOW_REMOTE_INSTALLATION",
+    "long_summary": "How to use the sp-uff tool: [sp-uff |https://rubrik.atlassian.net/wiki/spaces/EN/pages/3704127791/sp-uff+Tool+for+Unified+Feature+Flag]\n\n*Approvals Required:*\n\n# *Feature Team approval* :Mandatory for all flag changes. This approval has to be provided by a member of the \"feature-release-approvers\" Google Group, *other than the person raising the request*. To add members of\nyour team to this group, please email help@rubrik.com. Ideally, only managers and leads should be included in this group.\n# *Trident/FedRamp PgM approval* : Only if the environment is RSC-P or RSC-G.\n# *SRE Approval* (for first beta and GA rollout): Refer to: [SRE Feature Rollout Guidelines|https://rubrik.atlassian.net/wiki/spaces/SPARK/pages/3532554262/Feature+Rollout+Guidelines]\n\n*Note*:All approvals need to be provided *on the LD request page itself*, individually for each LD request on the Jira.\n\nAuto Approval Workflow:[UFF Auto Approval|https://rubrik.atlassian.net/wiki/spaces/EN/pages/4102455618/UFF+Auto+App...",
+    "action_items": [
+      "Obtain Feature Team approval from a member of the 'feature-release-approvers' Google Group (excluding the requester).",
+      "Ensure all required approvals are provided directly on the LaunchDarkly (LD) request page for this flag change.",
+      "Verify that the percentage rollout change (0.0% -> 10%) is reflected and functioning as intended in the target environment.",
+      "Notify relevant stakeholders (feature team, SRE if applicable) about the rollout status and any next steps.",
+      "Monitor the rollout for any issues or customer impact and be prepared to roll back if necessary.",
+      "Document the approval and rollout process in the appropriate internal wiki or tracking system."
+    ],
+    "score": 0.75
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-601063",
+    "timestamp": "2025-08-12 21:20:04",
+    "title": "SPARK-601063: UFF Change Request  - enable request for feature flag: RBS_ALLOW_REMOTE_INSTALLATION",
+    "long_summary": "How to use the sp-uff tool: [sp-uff |https://rubrik.atlassian.net/wiki/spaces/EN/pages/3704127791/sp-uff+Tool+for+Unified+Feature+Flag]\n\n*Approvals Required:*\n\n# *Feature Team approval* :Mandatory for all flag changes. This approval has to be provided by a member of the \"feature-release-approvers\" Google Group, *other than the person raising the request*. To add members of\nyour team to this group, please email help@rubrik.com. Ideally, only managers and leads should be included in this group.\n# *Trident/FedRamp PgM approval* : Only if the environment is RSC-P or RSC-G.\n# *SRE Approval* (for first beta and GA rollout): Refer to: [SRE Feature Rollout Guidelines|https://rubrik.atlassian.net/wiki/spaces/SPARK/pages/3532554262/Feature+Rollout+Guidelines]\n\n*Note*:All approvals need to be provided *on the LD request page itself*, individually for each LD request on the Jira.\n\nAuto Approval Workflow:[UFF Auto Approval|https://rubrik.atlassian.net/wiki/spaces/EN/pages/4102455618/UFF+Auto+App...",
+    "action_items": [
+      "Obtain Feature Team approval from a member of the 'feature-release-approvers' Google Group (other than the requester) on the LaunchDarkly request page.",
+      "Verify if Trident/FedRamp PgM approval is required (only if the environment is RSC-P or RSC-G); if so, obtain approval.",
+      "If this is the first beta or GA rollout, secure SRE approval as per SRE Feature Rollout Guidelines.",
+      "Ensure all required approvals are documented individually on the LaunchDarkly request page for this flag.",
+      "Assignee (Mohit Agrawal) to monitor for any issues post-application and confirm successful rollout."
+    ],
+    "score": 0.7
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-600382",
+    "timestamp": "2025-08-11 21:56:23",
+    "title": "SPARK-600382: UFF Change Request  - enable request for feature flag: RBS_ALLOW_REMOTE_INSTALLATION",
+    "long_summary": "How to use the sp-uff tool: [sp-uff |https://rubrik.atlassian.net/wiki/spaces/EN/pages/3704127791/sp-uff+Tool+for+Unified+Feature+Flag]\n\n*Approvals Required:*\n\n# *Feature Team approval* :Mandatory for all flag changes. This approval has to be provided by a member of the \"feature-release-approvers\" Google Group, *other than the person raising the request*. To add members of\nyour team to this group, please email help@rubrik.com. Ideally, only managers and leads should be included in this group.\n# *Trident/FedRamp PgM approval* : Only if the environment is RSC-P or RSC-G.\n# *SRE Approval* (for first beta and GA rollout): Refer to: [SRE Feature Rollout Guidelines|https://rubrik.atlassian.net/wiki/spaces/SPARK/pages/3532554262/Feature+Rollout+Guidelines]\n\n*Note*:All approvals need to be provided *on the LD request page itself*, individually for each LD request on the Jira.\n\nAuto Approval Workflow:[UFF Auto Approval|https://rubrik.atlassian.net/wiki/spaces/EN/pages/4102455618/UFF+Auto+App...",
+    "action_items": [
+      "Obtain Feature Team approval from a member of the 'feature-release-approvers' Google Group (not the requester).",
+      "Ensure all required approvals are provided on the LaunchDarkly (LD) request page for the feature flag RBS_ALLOW_REMOTE_INSTALLATION.",
+      "Verify that the change has been successfully applied and is functioning as expected.",
+      "If applicable, check if Trident/FedRamp PgM or SRE approvals are needed based on the environment and obtain them.",
+      "Notify stakeholders (feature team, SRE, PgM) once all approvals are complete and the flag is enabled.",
+      "Document the approval and rollout process for audit and compliance purposes."
+    ],
+    "score": 0.8
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-595912",
+    "timestamp": "2025-08-06 03:19:48",
+    "title": "SPARK-595912: UFF Change Request  - enable request for feature flag: RBS_ALLOW_REMOTE_INSTALLATION",
+    "long_summary": "How to use the sp-uff tool: [sp-uff |https://rubrik.atlassian.net/wiki/spaces/EN/pages/3704127791/sp-uff+Tool+for+Unified+Feature+Flag]\n\n*Approvals Required:*\n\n# *Feature Team approval* :Mandatory for all flag changes. This approval has to be provided by a member of the \"feature-release-approvers\" Google Group, *other than the person raising the request*. To add members of\nyour team to this group, please email help@rubrik.com. Ideally, only managers and leads should be included in this group.\n# *Trident/FedRamp PgM approval* : Only if the environment is RSC-P or RSC-G.\n# *SRE Approval* (for first beta and GA rollout): Refer to: [SRE Feature Rollout Guidelines|https://rubrik.atlassian.net/wiki/spaces/SPARK/pages/3532554262/Feature+Rollout+Guidelines]\n\n*Note*:All approvals need to be provided *on the LD request page itself*, individually for each LD request on the Jira.\n\nAuto Approval Workflow:[UFF Auto Approval|https://rubrik.atlassian.net/wiki/spaces/EN/pages/4102455618/UFF+Auto+App...",
+    "action_items": [
+      "Obtain Feature Team approval from a member of the 'feature-release-approvers' Google Group (excluding the requester).",
+      "Ensure all required approvals are provided on the LaunchDarkly (LD) request page for the RBS_ALLOW_REMOTE_INSTALLATION flag.",
+      "Verify if Trident/FedRamp PgM approval is needed (only if environment is RSC-P or RSC-G); if so, obtain it.",
+      "If this is the first beta or GA rollout, secure SRE approval as per SRE Feature Rollout Guidelines.",
+      "Confirm that the flag change has been successfully applied and is functioning as expected.",
+      "Notify stakeholders (feature team, SRE, PgM as applicable) once all approvals are complete and the flag is enabled."
+    ],
+    "score": 0.8
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-595566",
+    "timestamp": "2025-08-10 22:12:30",
+    "title": "SPARK-595566: Regenerate CDM 9.5 API",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-593284",
+    "timestamp": "2025-08-04 03:11:42",
+    "title": "SPARK-593284: UFF Change Request  - enable request for feature flag: RBS_ALLOW_REMOTE_INSTALLATION",
+    "long_summary": "How to use the sp-uff tool: [sp-uff |https://rubrik.atlassian.net/wiki/spaces/EN/pages/3704127791/sp-uff+Tool+for+Unified+Feature+Flag]\n\n*Approvals Required:*\n\n# *Feature Team approval* :Mandatory for all flag changes. This approval has to be provided by a member of the \"feature-release-approvers\" Google Group, *other than the person raising the request*. To add members of\nyour team to this group, please email help@rubrik.com. Ideally, only managers and leads should be included in this group.\n# *Trident/FedRamp PgM approval* : Only if the environment is RSC-P or RSC-G.\n# *SRE Approval* (for first beta and GA rollout): Refer to: [SRE Feature Rollout Guidelines|https://rubrik.atlassian.net/wiki/spaces/SPARK/pages/3532554262/Feature+Rollout+Guidelines]\n\n*Note*:All approvals need to be provided *on the LD request page itself*, individually for each LD request on the Jira.\n\nAuto Approval Workflow:[UFF Auto Approval|https://rubrik.atlassian.net/wiki/spaces/EN/pages/4102455618/UFF+Auto+App...",
+    "action_items": [
+      "Obtain Feature Team approval from a member of the 'feature-release-approvers' Google Group (excluding the requester).",
+      "If applicable, secure Trident/FedRamp PgM approval for RSC-P or RSC-G environments.",
+      "Obtain SRE approval for first beta and GA rollout as per SRE Feature Rollout Guidelines.",
+      "Ensure all required approvals are provided on the LaunchDarkly (LD) request page for this specific flag.",
+      "Assignee (Mohit Agrawal) to monitor the LD approval request and follow up with relevant approvers if approvals are pending.",
+      "Communicate with stakeholders (feature team, SRE, PgM) to expedite the approval process.",
+      "Once all approvals are obtained, confirm the feature flag is enabled and document the change."
+    ],
+    "score": 0.8
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-581533",
+    "timestamp": "2025-08-29 18:02:59",
+    "title": "SPARK-581533: [TOTVS S.A.] 2500+ 504 Gateway Timeout since migrating from REST API to GraphQL when executing queries.",
+    "long_summary": "Customer: TOTVS S.A.\n\nRSC URL: https://totvs.my.rubrik.com\n\nSummary\n\n>> The API calls from RSC to CDM are all succeeding, but many are taking an extended time to complete, with several exceeding 10 minutes. As a result, RSC is responding with a 504 code, although a different response might be more appropriate, since a failure code causes the customer\u2019s automation script to mark hosts incorrectly.\n\nCustomer impact and current status:\n\n>> Lot of automated queries are failing due to the timeout error and those mutations or get queries are missed.\n\nSupport analysis:\n\nCluster UUIDs (multiple clusters):\nBKP-PD-0001: 46197\nBKP-PD-0003: 43139\nBKP-PD-0004: 25317\nBKP-PD-0005: 43102\nBKP-PD-0008: 27746\nBKP-PD-0009: 23682\nBKP-PD-0010: 25026\n\n>> TOTVS operates fully automated workflows across its technology stack, including Rubrik. The SaaS portal enables customers to initiate on-demand backups, recoveries, and host/database protection using SLAs and filesets; these actions generate backend API c...",
+    "action_items": [
+      "Analyze the performance of GraphQL queries on the affected clusters (UUIDs provided) to identify bottlenecks causing extended completion times.",
+      "Coordinate with Mohit Agrawal to implement and communicate the suggested mitigation steps to the customer, including polling the cluster using the queryHost API or GET /host with hostname filter.",
+      "Investigate alternative response codes for timeouts to prevent customer automation scripts from marking hosts incorrectly.",
+      "Engage with the customer (TOTVS S.A.) to provide updates and gather additional details on the impact and specific queries affected.",
+      "Work with the backend/API engineering team to optimize query performance and reduce timeout occurrences.",
+      "Monitor the affected clusters for ongoing timeouts and validate if the mitigation steps are effective.",
+      "Document findings and next steps in the JIRA issue for transparency and future reference."
+    ],
+    "score": 0.85
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-576702",
+    "timestamp": "2025-07-09 23:41:13",
+    "title": "SPARK-576702: Implement physicalHostList query for secondary host registration table - Phase 2 ",
+    "long_summary": "No description provided.",
+    "action_items": [
+      "Clarify requirements and expected output for the physicalHostList query with the product owner or relevant stakeholders.",
+      "Design and implement the physicalHostList query for the secondary host registration table as per project specifications.",
+      "Coordinate with database administrators if schema changes or optimizations are required.",
+      "Write unit and integration tests to validate the new query functionality.",
+      "Request code review from a peer or tech lead after implementation.",
+      "Update documentation to reflect the new query and its usage.",
+      "Notify QA team for testing once development is complete."
+    ],
+    "score": 0.6
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-574747",
+    "timestamp": "2025-07-20 22:40:00",
+    "title": "SPARK-574747: Enable push installation of RBS in RSC UI",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-572198",
+    "timestamp": "2025-08-10 22:32:48",
+    "title": "SPARK-572198: Change certificate table and query to not show secondary certs on UI (Phase 2)",
+    "long_summary": "No description provided.",
+    "action_items": [
+      "Review the current certificate table and query implementation to identify where secondary certificates are being displayed.",
+      "Update the backend query logic to exclude secondary certificates from the results shown on the UI.",
+      "Modify the UI component to ensure only primary certificates are displayed.",
+      "Test the changes to confirm that secondary certificates are no longer visible on the UI.",
+      "Coordinate with Mohit Agrawal (assignee) to ensure timely completion.",
+      "Notify stakeholders of the upcoming change and gather feedback if necessary.",
+      "Document the changes made for future reference."
+    ],
+    "score": 0.6
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-572187",
+    "timestamp": "2025-07-09 23:40:57",
+    "title": "SPARK-572187: Add SECONDARY_HOST_REGISTRATION_ENABLED uff to RSC UI (Phase 2)",
+    "long_summary": "No description provided.",
+    "action_items": [
+      "Clarify requirements for adding SECONDARY_HOST_REGISTRATION_ENABLED uff to RSC UI with product owner or relevant stakeholders.",
+      "Assign Mohit Agrawal to begin implementation of the feature in the RSC UI codebase.",
+      "Coordinate with UI/UX team to ensure proper placement and design of the new uff.",
+      "Prepare and execute unit and integration tests for the new feature.",
+      "Schedule code review with at least one peer developer.",
+      "Update documentation to reflect the new uff in the RSC UI.",
+      "Notify QA team for regression and feature testing after implementation."
+    ],
+    "score": 0.6
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-572186",
+    "timestamp": "2025-07-09 23:40:51",
+    "title": "SPARK-572186: Integrate secondary host registration API in RSC UI (Phase 2)",
+    "long_summary": "No description provided.",
+    "action_items": [
+      "Review the requirements and API documentation for secondary host registration.",
+      "Coordinate with the backend/API team to clarify integration points if needed.",
+      "Design and implement the integration of the secondary host registration API into the RSC UI.",
+      "Test the integration thoroughly to ensure correct functionality.",
+      "Update relevant documentation to reflect the new integration.",
+      "Notify stakeholders upon completion and request feedback or review."
+    ],
+    "score": 0.6
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-572184",
+    "timestamp": "2025-07-09 23:40:42",
+    "title": "SPARK-572184: Add secondary host registration API in API server (Phase 2)",
+    "long_summary": "No description provided.",
+    "action_items": [
+      "Review requirements and specifications for the secondary host registration API.",
+      "Design the API endpoints and data models for secondary host registration.",
+      "Coordinate with backend and frontend teams to ensure integration points are clear.",
+      "Implement the API in the API server codebase.",
+      "Write unit and integration tests for the new API functionality.",
+      "Request code review from a peer or tech lead.",
+      "Update API documentation to include the new endpoints.",
+      "Notify QA team to prepare test cases for the new API.",
+      "Schedule a follow-up meeting to track progress and address blockers."
+    ],
+    "score": 0.6
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-551265",
+    "timestamp": "2025-06-02 23:44:39",
+    "title": "SPARK-551265: The registered hosts are not getting synced immediately in RSC when spray server timeouts",
+    "long_summary": "When adding many hosts at the same time (~50). The spray server timeouts, due to which the post processing logic of the cdm rest service does not trigger.\n\nDue to this, the hosts are not immediately shown in the RSC UI.\n\nRefer this document on the issue:\n[https://docs.google.com/document/d/176Z4rW_Au7muAV7L9PyYr_d3Xcv4qMSMiCxdhgSnZaQ/edit?tab=t.0#heading=h.baxs9i286clx|https://docs.google.com/document/d/176Z4rW_Au7muAV7L9PyYr_d3Xcv4qMSMiCxdhgSnZaQ/edit?tab=t.0#heading=h.baxs9i286clx|smart-link] ",
+    "action_items": [
+      "Investigate the spray server timeout issue when adding multiple hosts (~50) simultaneously.",
+      "Review and update the post-processing logic in the cdm rest service to ensure it triggers even if the spray server times out.",
+      "Coordinate with Mohit Agrawal (assignee) to implement a mechanism to fail the cdm API before timeout, as suggested in the comments.",
+      "Test the bulk host registration process to confirm hosts are immediately synced and visible in the RSC UI.",
+      "Document the changes and update the referenced Google Doc with findings and solutions.",
+      "Communicate with stakeholders (including Ujjwal Mani Tripathi and Bharath Bheemarasetti) about the fix and gather feedback.",
+      "Monitor for any missed updates or sync issues after the fix is deployed."
+    ],
+    "score": 0.6
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-549770",
+    "timestamp": "2025-06-10 03:07:46",
+    "title": "SPARK-549770: <master-75453><Windiws/Linux Host><REG>Windows/Linux Host addition flow has changed",
+    "long_summary": "# Login to the URL mentioned in the Environment field \n# Navigate to Settings \u2192 Data Sources \u2192 Windows \u2192 Add Hosts\n# ISSUE \u2192 Observing a new change that Install RBS on Hosts option selection is displayed\n# Also, if we hover over Install Remotely option then it shows Remote Installation is not allowed toolip is popped up.\n# Same issue occurs while adding Linux hosts also.\n\nNOTE : If user proceeds via Install manually option then user able to add both linux and windows machine.\n\nExpected: If the newer flow is not expected then please revert back to the older flow.\n\nNEWER FLOW\n\n!Screen Recording 2025-05-30 at 8.46.50\u202fAM.mov|width=3584,height=2240,alt=\"Screen Recording 2025-05-30 at 8.46.50\u202fAM.mov\"!\n\n*OLDER FLOW - v20250526-20*\n\n!Screen Recording 2025-05-30 at 11.47.45\u202fAM.mov|width=3584,height=2240,alt=\"Screen Recording 2025-05-30 at 11.47.45\u202fAM.mov\"!",
+    "action_items": [
+      "Confirm with stakeholders if the newer host addition flow is expected or if a rollback to the older flow is required.",
+      "Coordinate with QA (Sai Vijayeendra R) to verify the issue in dev-020 accounts after the next upgrade (scheduled for June 5).",
+      "If the issue is reproducible in dev-020, document the exact steps and environment details.",
+      "If rollback is required, assign to engineering (Mohit Agrawal) to revert the host addition flow to the previous version (v20250526-20).",
+      "Communicate findings and next steps to all relevant stakeholders, including product and support teams.",
+      "Monitor for any further reports of the issue post-upgrade and ensure resolution is confirmed in all environments."
+    ],
+    "score": 0.7
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-545215",
+    "timestamp": "2025-05-28 02:50:13",
+    "title": "SPARK-545215: Add push installation workflow in AddEditPhysicalHost modal",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-544407",
+    "timestamp": "2025-06-05 03:18:16",
+    "title": "SPARK-544407: Add event polling and sync to rbs bulk install api",
+    "long_summary": "No description provided.",
+    "action_items": [
+      "Verify that event polling and sync functionality has been implemented for all required tables, not just the 'Host' table.",
+      "Review code changes to ensure all related tables are included in the sync process after host registration.",
+      "Conduct testing to confirm that event polling and sync work as expected for bulk install scenarios.",
+      "Update documentation to reflect the new sync behavior for related tables.",
+      "Close the issue if all acceptance criteria are met and no further action is required."
+    ],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-540664",
+    "timestamp": "2025-05-28 02:51:07",
+    "title": "SPARK-540664: Add linuxBulkRbsInstall mutation in api-server",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-540650",
+    "timestamp": "2025-05-28 02:51:33",
+    "title": "SPARK-540650: Add windowsBulkRbsInstall mutation in api-server",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-540294",
+    "timestamp": "2025-05-21 03:48:52",
+    "title": "SPARK-540294: Add rbs bulk install api to whitelist",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-539617",
+    "timestamp": "2025-05-21 03:48:28",
+    "title": "SPARK-539617: Add uff for rbs push/remote installation",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-539078",
+    "timestamp": "2025-08-12 02:44:05",
+    "title": "SPARK-539078: SRE GA Review - RBS deployment from RSC UI",
+    "long_summary": "Schedule a meeting with an SRE approver ([Points of Contact|https://rubrik.atlassian.net/wiki/spaces/SPARK/pages/3923902625/Points+of+Contact+for+Readiness+Checks])\n\nAdvance review will help avoid delays for Beta/GA. Please ensure all details are updated in the Jiras.\nSRE feedback and customer feedback for Beta/LGA needs to be completed for GA.\n\nh1. Production Health\n\n|Checklist|Comment|\n|Anything being added to login flow or dashboard page?|No|\n|Anything being added to Tier-0 service?|No|\n|Dependency on CDM? What happens if connection to CDM is flaky/slow? Has this been tested with several clusters and large clusters in dev-100?|Yes, installation is done by CDM entirely, RSC just forwards the request.\n* If the connection to CDM is flaky/slow from the RSC then the Events can take more time to show in RSC. \n* Not tested with large clusters in dev-100.|\n|Ensure proper Korg resources - workers+credit/memory/cpu/replica and not defaults|NA|\n|Links to Chronosphere dashboards for staging ...",
+    "action_items": [
+      "Schedule a meeting with an SRE approver using the provided Points of Contact link.",
+      "Ensure all relevant details and documentation are updated in the associated JIRA issues.",
+      "Collect and document SRE feedback for the Beta/LGA phase.",
+      "Collect and document customer feedback for the Beta/LGA phase.",
+      "Test the deployment with several clusters, including large clusters in dev-100, to validate behavior under flaky/slow CDM connections.",
+      "Coordinate with Mohit Agrawal (assignee) to drive the review and follow up on pending feedback.",
+      "Initiate and monitor the gradual GA rollout as approved by SRE."
+    ],
+    "score": 0.55
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-539077",
+    "timestamp": "2025-07-29 07:23:10",
+    "title": "SPARK-539077: Production Readiness Review - RBS deployment from RSC UI",
+    "long_summary": "Start your Production Readiness Review **5 weeks before first GA ramp**. Try to finish at least 1 week before the GA date. \n\nYou may do your Beta/LGA at your own discretion, up to 25 accounts and provide customer support. \n\nh2. How to Create Tickets\n\n{panel:bgColor=#E9F2FF}\nIf a PRR ticket is created by mistake, you must close it manually.\n{panel}\n\nUse the [Exemption Criteria|https://rubrik.atlassian.net/wiki/spaces/SPARK/pages/3924590636/Exemption+Criteria] to determine which PRR tickets you need, then:\n\n1. Open your Feature Epic in Jira\n2. On the right bar, find the section called \"Production Readiness Checks\"\n3. Click the drop down to reveal checkboxes, then select the checkboxes for your required tickets\n4. Tickets will be created within a few minutes\n\nh2. How to Prepare for Review meetings\n\nEach ticket contains details on how to prepare for the review meeting. Below are some brief examples of what type of information to gather. \n\nSchedule a meeting with a [Point of Contact|http...",
+    "action_items": [
+      "Assignee (Mohit Agrawal) to review the Production Readiness Review (PRR) checklist for RBS deployment from RSC UI.",
+      "Determine if any exemption criteria apply using the provided Exemption Criteria documentation.",
+      "Open the relevant Feature Epic in Jira and ensure all required Production Readiness Checks are selected.",
+      "Gather all necessary documentation and information as outlined in the PRR ticket for the review meeting.",
+      "Schedule a Production Readiness Review meeting with the appropriate Point of Contact and stakeholders.",
+      "Document that a database review is not needed, as noted in the recent comment.",
+      "Follow up with stakeholders to ensure all PRR requirements are met prior to GA ramp."
+    ],
+    "score": 0.6
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-519860",
+    "timestamp": "2025-04-07 03:03:26",
+    "title": "SPARK-519860: Performance metrics added to perf dashboard : RBS deployment from RSC UI",
+    "long_summary": "Please work with #turbo-team to ensure that benchmarking data of this feature is being reflected on Tableau ([CDM Dashboard|https://us-west-2b.online.tableau.com/t/rubrikwisdom/views/CDMPerformanceTestResults/LatestFeatureMetrics/26531d3e-3255-457a-bb0e-ed01f6a4f2b0/64fbec94-a1ed-41d7-8dd0-212f8e952edf]| [Polaris Dashboard|https://us-west-2b.online.tableau.com/t/rubrikwisdom/views/PolarisPerformanceTestResults/LatestFeatureMetrics/51d55c94-c393-4765-b1ed-a875bc5d8592/7ddbd241-dbe6-463d-97d3-6ab06b0b0613]). If the results are not human-readable, please update [Mapping here|https://docs.google.com/spreadsheets/d/1wrv_F8SRp3ve45gKcf0Fyzg3bBigRup4yP6en-i46Xs/edit?gid=0#gid=0].This can be closed once tests have been added and are reflected on the dashboard. Refer to [Product Performance Process|https://rubrik.atlassian.net/wiki/spaces/EN/pages/3290764188/Product+Performance+Process} for more context.",
+    "action_items": [
+      "Coordinate with the #turbo-team to verify that benchmarking data for RBS deployment from RSC UI is being displayed on both the CDM and Polaris Tableau dashboards.",
+      "Check the Tableau dashboards (provided links) to confirm that the performance metrics are present and up-to-date.",
+      "If the metrics are not human-readable, update the mapping in the referenced Google Spreadsheet.",
+      "Ensure that all relevant performance tests have been added and their results are reflected on the dashboards.",
+      "Review the Product Performance Process documentation for any additional requirements.",
+      "Notify stakeholders (including #turbo-team and Mohit Agrawal) once the above steps are complete."
+    ],
+    "score": 0.62
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-519859",
+    "timestamp": "2025-06-30 03:54:40",
+    "title": "SPARK-519859: UX Acceptance: RBS Push Installation",
+    "long_summary": "{color:blue}For features that involve *customer-visible UI changes*, follow the process outlined in this wiki  [https://docs.google.com/document/d/1XlViNzJjZETbVqW1zeW0ldvwUBfLNPEQsqyFt0rLN9A/edit#].{color}\n\nIf the feature does not include customer-visible UI changes, close this Jira with status N/A.\n\n*Dev Handoff Checklist*\n\n* Work with Designer to set up a UX Handoff meeting, within the first two weeks of starting feature development.\n* Review Figma designs from perspective of\u00a0\n** Understand the UX flows and requirements\n** Identify if any new core (reusable) components will be required\n*** Create list of any requested new core components or snappable framework components in #design-system-core-team and tag feature designer.\n*** Share the ask in #design-systems-core-team early to give the team heads-up\n** For larger UI efforts, create technical design document and share to #polaris-ui-eng ([Example 1|https://docs.google.com/document/d/1pntyRgsirt2t324sPN__r0mMuzzNa4R0X5NccMVq5Po/e...",
+    "action_items": [
+      "Review the provided Figma UX mockups to fully understand the proposed UI changes.",
+      "Confirm with the designer whether the feature includes customer-visible UI changes; if not, close the issue as N/A.",
+      "Schedule and conduct a UX Handoff meeting with the designer within the first two weeks of feature development.",
+      "Identify any new core or reusable components required for the implementation.",
+      "Create and share a list of requested new core components or snappable framework components in #design-system-core-team and tag the feature designer.",
+      "Share the component requests early in #design-systems-core-team to notify the team.",
+      "For larger UI efforts, draft a technical design document and share it in #polaris-ui-eng for feedback.",
+      "Ensure all steps in the Dev Handoff Checklist are completed and documented."
+    ],
+    "score": 0.68
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-519857",
+    "timestamp": "2025-05-19 10:38:59",
+    "title": "SPARK-519857: Security Review: RBS Push Installation",
+    "long_summary": "Please follow the latest guidelines specified in the following wiki:[https://rubrik.atlassian.net/wiki/spaces/EN/pages/2326561469/How+to+request+a+Security+Review#What-review-requestor-should-do|https://rubrik.atlassian.net/wiki/spaces/EN/pages/2326561469/How+to+request+a+Security+Review#What-review-requestor-should-do]\nFor more context, see [https://rubrik.atlassian.net/wiki/spaces/EN/pages/102072727/Security+Reviews|https://rubrik.atlassian.net/wiki/spaces/EN/pages/102072727/Security+Reviews]\n[CDM-477762]\n\nQuestionnaire: [https://rubrik.atlassian.net/wiki/spaces/EN/pages/4099342347/RBS+Push+Installation|https://rubrik.atlassian.net/wiki/spaces/EN/pages/4099342347/RBS+Push+Installation|smart-link] ",
+    "action_items": [
+      "Review the latest security review guidelines as specified in the provided wiki link.",
+      "Complete the security review questionnaire for RBS Push Installation.",
+      "Address feedback from JMWE regarding insecure design as referenced in CDM-477959 and SPARK-528607.",
+      "Update the design document to resolve identified security concerns.",
+      "Coordinate with the security team for a follow-up review after design updates.",
+      "Ensure all documentation (wiki, design doc, questionnaire) is up to date and accessible.",
+      "Assignee (Mohit Agrawal) to provide status update after addressing feedback."
+    ],
+    "score": 0.78
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/SPARK-519855",
+    "timestamp": "2025-08-12 02:38:45",
+    "title": "SPARK-519855: RBS deployment from RSC UI",
+    "long_summary": "Need to download and install RBS manually before registering the SQL host in RSC which is a lot of manual process when there are many SQL hosts. It would be good if there is a option to install RBS automatically from RSC UI",
+    "action_items": [
+      "Coordinate with the Design Forum/ATL team to complete the required review for the Epic.",
+      "Assignee (Mohit Agrawal) to provide an ETA for the ATL review process.",
+      "Continue and complete testing of the RBS deployment process with 50 SQL hosts as documented.",
+      "Document and address any issues or feedback from the ongoing large-scale testing.",
+      "Prepare a plan for automating RBS installation from the RSC UI based on test results and design review outcomes.",
+      "Update stakeholders on progress and next steps after ATL review and testing are complete."
+    ],
+    "score": 0.55
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/INFRA-77508",
+    "timestamp": "2025-07-24 04:33:10",
+    "title": "INFRA-77508: Add mohit.agrawal to the new-hires.md list",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.1
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-508927",
+    "timestamp": "2025-09-09 13:10:46",
+    "title": "CDM-508927: MSSQL hosts in  disconnected state post upgrade to 9.3.3-p1. RBS service is crashing",
+    "long_summary": "_Customer:_ [+NewRez+|https://rubrikinc.lightning.force.com/lightning/r/Account/0011W000022Tml3QAC/view]\n\n_Summary_\n\nMSSQL hosts in  disconnected state post upgrade to 9.3.3-p1. RBS service is crashing\n\n\n_Customer impact and current status_\nSQL DB backups started failing post CDM upgrade\n\n\n\n_Workaround_\n\n\nKill the stale rba.exe process and restart RBS agent manually on affected host.\n\n\n\n_Support analysis_\n\n\nCluster Details\n\n{noformat}{\n  \"acceptedEulaVersion\": \"1.3\",\n  \"apiVersion\": \"1\",\n  \"geolocation\": {\n    \"address\": \"Atlanta, GA, USA\"\n  },\n  \"id\": \"6943ed86-e2d1-4062-8229-6496ae86c24c\",\n  \"latestEulaVersion\": \"1.3\",\n  \"name\": \"AZPPRubrik01\",\n  \"registeredMode\": \"Hybrid\",\n  \"rubrikUrl\": \"https://newrez.my.rubrik.com\",\n  \"timezone\": {\n    \"timezone\": \"America/New_York\"\n  },\n  \"version\": \"9.3.3-p1-29518\"\n}\n\n{noformat}\n\n\n\nDR cluster was upgraded recently to {{9.3.3-p1}}\n\n{noformat}2025-09-04 18:07:47|6|Setting status to UPGRADE before upgrade process started. Old version is 9.2.2-p...",
+    "action_items": [
+      "Collect detailed logs from affected MSSQL hosts to diagnose the root cause of RBS service crashes.",
+      "Coordinate with Mohit Agrawal (assignee) to analyze logs and identify any upgrade-related issues.",
+      "Engage engineering or escalation team if root cause is not quickly identified.",
+      "Continue to apply the workaround (kill stale rba.exe process and restart RBS agent) on all affected hosts to restore SQL DB backup functionality.",
+      "Communicate with customer (NewRez) regarding progress and next steps, especially after the 2pm call with John Iversen.",
+      "Document all findings and steps taken in the JIRA issue for transparency and future reference.",
+      "Prepare a rollback or patch plan if a systemic issue with version 9.3.3-p1 is confirmed."
+    ],
+    "score": 0.85
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-505514",
+    "timestamp": "2025-08-24 23:34:52",
+    "title": "CDM-505514: Test Failure: 'Exception: Host status isDisconnected'",
+    "long_summary": "\nh3. AUTO-GENERATED. DO NOT EDIT.\n\nh4.{color:#bf2600} Recent test failures linked to this Jira{color}: [CDM Tableau Link|https://us-west-2b.online.tableau.com/#/site/rubrikwisdom/views/CDMTestResults/TestcaseTrendDashboard?ifraiframeSizedToWindow=true&:embed=y&:showAppBanner=false&:display_count=no&:showVizHome=no&:origin=viz_share_linkmeSizedToWindow=true&:embed=y&:showAppBanner=false&:display_count=no&:showVizHome=no&:origin=viz_share_link&JIRA_ID=CDM-505514&Pipeline=&]\n_For latest failures, affected components, versions, and environments, please refer to the link(s) above_\n\n\n----\n_Original failure details below (first occurrence of failure)_\n\nh4. Relevant links:\n\n\n    - Bodega orders: [Bodega|https://bodega.stark.rubrik.com/api/orders/mtcicb-mcgegck]\n- Pipeline links: [Pipeline|https://galaxy.colo.rubrik.com/#/palladium/jobs/9f370b01-8642-4045-b8b4-076cb1597b75] | [Job|https://galaxy.colo.rubrik.com/#/palladium/jobs/9f370b01-8642-4045-b8b4-076cb1597b75/b7c3a428-da5d-46df-ad15-c29...",
+    "action_items": [
+      "Assign Mohit Agrawal to investigate the root cause of the 'Host status isDisconnected' exception in the failing test.",
+      "Review the linked Tableau dashboard for recent and historical test failures related to this issue.",
+      "Analyze the affected components, versions, and environments as referenced in the Tableau link.",
+      "Check the Bodega order and pipeline/job links for logs and additional failure context.",
+      "Reproduce the failure in a controlled environment to gather more diagnostic information.",
+      "Coordinate with QA and DevOps teams if infrastructure or environment issues are suspected.",
+      "Document findings and update the JIRA issue with root cause analysis and proposed fix.",
+      "Implement and test the fix, then trigger the relevant pipeline to verify resolution.",
+      "Communicate progress and findings to stakeholders via JIRA comments."
+    ],
+    "score": 0.82
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-504545",
+    "timestamp": "2025-09-07 23:16:49",
+    "title": "CDM-504545: Test Failure: 'Exception: Failed to install rba on host 10.11.246.108'",
+    "long_summary": "\nh3. AUTO-GENERATED. DO NOT EDIT.\n\nh4.{color:#bf2600} Recent test failures linked to this Jira{color}: [CDM Tableau Link|https://us-west-2b.online.tableau.com/#/site/rubrikwisdom/views/CDMTestResults/TestcaseTrendDashboard?ifraiframeSizedToWindow=true&:embed=y&:showAppBanner=false&:display_count=no&:showVizHome=no&:origin=viz_share_linkmeSizedToWindow=true&:embed=y&:showAppBanner=false&:display_count=no&:showVizHome=no&:origin=viz_share_link&JIRA_ID=CDM-504545&Pipeline=&]\n_For latest failures, affected components, versions, and environments, please refer to the link(s) above_\n\n\n----\n_Original failure details below (first occurrence of failure)_\n\nh4. Relevant links:\n\n\n    - Bodega orders: [Bodega|https://bodega.stark.rubrik.com/api/orders/uw7hvw-ibdzvni]\n- Pipeline links: [Pipeline|https://galaxy.colo.rubrik.com/#/palladium/jobs/e2a53673-20a5-4f89-a044-0861eadf164a] | [Job|https://galaxy.colo.rubrik.com/#/palladium/jobs/e2a53673-20a5-4f89-a044-0861eadf164a/d381bed8-2bf9-4552-956f-833...",
+    "action_items": [
+      "Verify that the openssl binary has been rolled back or replaced with a compatible version on all affected linux ppc9 machines.",
+      "Confirm that the rba installation now succeeds on host 10.11.246.108 and any other impacted hosts.",
+      "Update documentation or deployment scripts to prevent incompatible openssl upgrades in the future.",
+      "Communicate resolution and root cause to stakeholders and QA to ensure awareness and prevent recurrence.",
+      "Monitor test dashboards for any recurrence of similar failures in upcoming runs."
+    ],
+    "score": 0.3
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-504426",
+    "timestamp": "2025-08-17 20:22:17",
+    "title": "CDM-504426: Port #80258, #80361, #80910, #80953, #84819, #86395 to b9.4",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-502488",
+    "timestamp": "2025-08-10 22:21:54",
+    "title": "CDM-502488: Remove genai reviews for rba",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-502270",
+    "timestamp": "2025-08-10 23:16:09",
+    "title": "CDM-502270: Test Failure: 'SystemExit: Test terminated with SIGNAL 15'",
+    "long_summary": "\nh3. AUTO-GENERATED. DO NOT EDIT.\n\nh4.{color:#bf2600} Recent test failures linked to this Jira{color}: [CDM Tableau Link|https://us-west-2b.online.tableau.com/#/site/rubrikwisdom/views/CDMTestResults/TestcaseTrendDashboard?ifraiframeSizedToWindow=true&:embed=y&:showAppBanner=false&:display_count=no&:showVizHome=no&:origin=viz_share_linkmeSizedToWindow=true&:embed=y&:showAppBanner=false&:display_count=no&:showVizHome=no&:origin=viz_share_link&JIRA_ID=CDM-502270&Pipeline=&]\n_For latest failures, affected components, versions, and environments, please refer to the link(s) above_\n\n\n----\n_Original failure details below (first occurrence of failure)_\n\nh4. Relevant links:\n\n\n    - Bodega orders: [Bodega|https://bodega.stark.rubrik.com/api/orders/gg6w76-884z5rq]\n- Pipeline links: [Pipeline|https://galaxy.colo.rubrik.com/#/palladium/jobs/33732150-b17f-404a-b903-322158028757] | [Job|https://galaxy.colo.rubrik.com/#/palladium/jobs/33732150-b17f-404a-b903-322158028757/d8096688-b76f-41b7-81c4-71f...",
+    "action_items": [
+      "Verify that the root cause of the 'SystemExit: Test terminated with SIGNAL 15' failure has been fully addressed in the codebase.",
+      "Confirm that all related test cases now pass in the latest pipeline runs (refer to the Tableau and pipeline links provided).",
+      "Communicate resolution and root cause to relevant QA and development team members, especially those monitoring test stability.",
+      "Monitor for recurrence of similar failures in upcoming test cycles and update documentation if necessary.",
+      "Close out any related sub-tasks or linked issues if not already done."
+    ],
+    "score": 0.25
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-501875",
+    "timestamp": "2025-08-10 22:21:40",
+    "title": "CDM-501875: Add audit in the registerHost for secondary registration",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-501874",
+    "timestamp": "2025-08-10 22:21:09",
+    "title": "CDM-501874: Add support for importing internal certificate",
+    "long_summary": "No description provided.",
+    "action_items": [
+      "Verify that the support for importing internal certificates has been implemented as per requirements.",
+      "Conduct final testing to ensure the feature works as expected.",
+      "Update documentation to reflect the new functionality.",
+      "Notify relevant stakeholders (e.g., QA, product owner) that the task is complete.",
+      "Close out any related sub-tasks or linked issues if not already done."
+    ],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-500262",
+    "timestamp": "2025-07-23 01:53:14",
+    "title": "CDM-500262: Add filter for the is_internal field and pem_file field in the queryCertificates api on CDM",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.15
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-500248",
+    "timestamp": "2025-07-23 01:53:32",
+    "title": "CDM-500248: Add is_internal column to the certificate table",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.1
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-499468",
+    "timestamp": "2025-08-01 00:29:22",
+    "title": "CDM-499468: Multiple warning events in Rubrik clusters SG1 \"Unable to retrieve logs from host\" on multiple Hosts.",
+    "long_summary": "\n\n\n\nAssist Request Comments(null): Assist Request Comments(null): Cluster UUID:\n\ne8b92cc3-0c64-4fe9-a0b5-499e8b33ccce -> SG1\n\n=============================================\n\nMultiple warning events in Rubrik clusters SG1 for multiple hosts (Unable to retrieve logs from host SNGP1VLDOVAM01.dapac.aspa.smbc.local.)\nScreenshot of multiple hosts are attached in the case.\nBelow information is for one of the host\n\nPreviously was observing RBS timeout errors in refresh host details for which increased the timeout value to 1200\nAs per AR engineer recommendation increased downloadAgentLogsTimeoutInSeconds value to 3000\n\n\n\n*Customer:* Sumitomo Mitsui Banking Corporation Singapore\n\n*RSC URL:* https://sg-smbc.my.rubrik.com\n\n*Summary* [IF THE REQUEST IS TO REMOVE SNAPSHOTS THEN SPECIFY SNAPSHOT NAMES, IDs and DATES explicitly]\nMultiple warning events in Rubrik clusters SG1 for multiple hosts (Unable to retrieve logs from host SNGP1VLDOVAM01.dapac.aspa.smbc.local.)\nScreenshot of multiple hosts are ...",
+    "action_items": [
+      "Confirm with customer (Sumitomo Mitsui Banking Corporation Singapore) that the issue is fully resolved and no further warning events are occurring.",
+      "Document the configuration changes made (increased timeout values) for future reference and knowledge base.",
+      "Ensure all relevant screenshots and logs are attached to the JIRA for audit and troubleshooting history.",
+      "Notify stakeholders (including Mohit Agrawal and Ujwal Machimada) that the issue is resolved and JIRA can be closed.",
+      "Perform a final review to ensure no follow-up actions are required from support or engineering."
+    ],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-491887",
+    "timestamp": "2025-05-28 02:49:27",
+    "title": "CDM-491887: Add running event for bulk rbs install api",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-491771",
+    "timestamp": "2025-05-27 21:54:11",
+    "title": "CDM-491771: Add retries to manage rba api calls in jedi test",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-491638",
+    "timestamp": "2025-05-18 21:31:28",
+    "title": "CDM-491638: Test Failure: 'internal_api.rest.ApiException: (422)'",
+    "long_summary": "h3. AUTO-GENERATED. DO NOT EDIT.\n\nh4. {color:#bf2600}Recent test failures linked to this Jira{color}: [CDM Tableau Link|https://us-west-2b.online.tableau.com/#/site/rubrikwisdom/views/CDMTestResults/TestcaseTrendDashboard?ifraiframeSizedToWindow=true&:embed=y&:showAppBanner=false&:display_count=no&:showVizHome=no&:origin=viz_share_linkmeSizedToWindow=true&:embed=y&:showAppBanner=false&:display_count=no&:showVizHome=no&:origin=viz_share_link&JIRA_ID=CDM-474014&Pipeline=&] | [POLARIS Tableau Link|https://us-west-2b.online.tableau.com/#/site/rubrikwisdom/views/PolarisTestsDashboard_16058220807080/TestcaseTrendDashboard?ifraiframeSizedToWindow=true&:embed=y&:showAppBanner=false&:display_count=no&:showVizHome=no&:origin=viz_share_linkmeSizedToWindow=true&:embed=y&:showAppBanner=false&:display_count=no&:showVizHome=no&:origin=viz_share_link&Jira%20Id=CDM-474014&Polaris%20Component=&]\n\n_For latest failures, affected components, versions, and environments, please refer to the link(s) above_...",
+    "action_items": [
+      "Verify that the root cause of the 'internal_api.rest.ApiException: (422)' test failure has been addressed and the fix is merged.",
+      "Confirm with Mohit Agrawal (assignee) that all related code changes have been deployed and tested.",
+      "Check the linked Tableau dashboards for any new or recurring failures related to this issue.",
+      "Communicate the resolution to relevant QA and development teams to ensure awareness.",
+      "Monitor upcoming test runs to ensure the issue does not reoccur."
+    ],
+    "score": 0.35
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-489984",
+    "timestamp": "2025-07-08 23:34:06",
+    "title": "CDM-489984: Upgrade should be triggered only if RBA is on older version (no downgrades)",
+    "long_summary": "No description provided.",
+    "action_items": [
+      "Clarify requirements for upgrade logic to ensure upgrades are only triggered when RBA is on an older version and prevent downgrades.",
+      "Assign Mohit Agrawal to implement the version check in the upgrade process.",
+      "Review and update any related documentation to reflect the new upgrade behavior.",
+      "Test the upgrade process to confirm that downgrades are not triggered under any circumstances.",
+      "Conduct code review and QA validation after implementation."
+    ],
+    "score": 0.55
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-488643",
+    "timestamp": "2025-05-28 02:44:27",
+    "title": "CDM-488643: Update rubrik_tool.py to support host validations",
+    "long_summary": "The manage_rba scripts going will be doing strict host validation going further. For that in its apis {{/host/rbs/install}}, {{/host/rbs/info}}, {{/host/rbs/upgrade}} and {{/host/rbs/uninstall}} will need either {{httpsThumbprint}} or {{hostSshPublicKey}} depending upon whether we are using ssh or winrm to connect to it.",
+    "action_items": [],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-488633",
+    "timestamp": "2025-05-28 02:45:45",
+    "title": "CDM-488633: Fix e2e tests which are using manage rba apis",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-488539",
+    "timestamp": "2025-04-21 22:24:08",
+    "title": "CDM-488539: Add SSH host key verification in jedi tests",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.1
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-487995",
+    "timestamp": "2025-05-28 02:47:04",
+    "title": "CDM-487995: Add api for bulk rbs installation",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.1
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-487925",
+    "timestamp": "2025-05-28 02:48:53",
+    "title": "CDM-487925: Fix manage rba to enforce strict thumbprint and host key validation",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.1
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-481385",
+    "timestamp": "2025-05-28 02:47:52",
+    "title": "CDM-481385: Add Bulk Manage Host Rbs Job",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-480964",
+    "timestamp": "2025-08-10 10:33:54",
+    "title": "CDM-480964: [Fiserv, Inc.] Backup of Oracle logs failed.",
+    "long_summary": "*Customer:* Fiserv\n\n*RSC URL:* [https://fiserv-us.my.rubrik.com|https://fiserv-us.my.rubrik.com/]\n\n*Summary* Oracle log backups failing for a particular host since CDM Upgrade\n\n*Customer impact and current status*\nOracle log backups are failing for a particular host since upgrade\nArchive logs are not being cleared\n\n*Support analysis*\nUpgrade History\n\n{noformat}Cherry Hill Production\" rksupport@RVMHM19CS001415:~$ node-status-history | tail -n 2\n2025-03-27 13:45:21|6|Setting status to UPGRADE before upgrade process started. Old version is 9.1.3-p1-28075\n2025-03-27 15:29:22|1|Setting status to OK after upgrade process ended. New version is 9.2.3-p1-29368{noformat}\n\nJob Failure\n\n{noformat}{\n\"archived\": false,\n\"endTime\": \"2025-03-28T12:20:01+0000\",\n\"errorInfo\": \"{\\\"message\\\":\\\"Request to Rubrik agent on 'chh-lpar16.osi-asp.net:12801' failed with 'Failed to execute statement SELECT * FROM (SELECT RECID, NAME, THREAD#, SEQUENCE#, FIRST_CHANGE#, TO_CHAR(cast(FIRST_TIME as timestamp with tim...",
+    "action_items": [
+      "Complete the version comparison task to identify discrepancies post-upgrade (assigned to Ujjwal Mani Tripathi).",
+      "Coordinate with Mohit Agrawal to finalize and validate the fix for Oracle log backup failures.",
+      "Communicate with Fiserv to provide an update on progress and expected resolution timeline.",
+      "Verify that archive logs are cleared and backups are successful after implementing the fix.",
+      "Document the root cause and resolution steps for future reference.",
+      "Monitor the backup jobs for at least one cycle post-fix to ensure stability."
+    ],
+    "score": 0.68
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-480251",
+    "timestamp": "2025-04-21 22:24:12",
+    "title": "CDM-480251: Fix manage rba script for windows server 2012",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-476021",
+    "timestamp": "2025-04-21 22:24:51",
+    "title": "CDM-476021: Add support for SSH key based authentication for install/uninstall/info hosts API",
+    "long_summary": "No description provided.",
+    "action_items": [],
+    "score": 0.1
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-475044",
+    "timestamp": "2025-02-27 21:47:49",
+    "title": "CDM-475044: Add support for SSH key based authentication in manage rba scripts.",
+    "long_summary": "No description provided.",
+    "action_items": [
+      "Verify that SSH key based authentication is fully implemented and tested in manage rba scripts.",
+      "Ensure documentation is updated to reflect the new authentication method.",
+      "Confirm with stakeholders (e.g., DevOps, security team) that the implementation meets requirements.",
+      "Close out any related sub-tasks or linked issues if not already done."
+    ],
+    "score": 0.2
+  },
+  {
+    "source": "jira",
+    "link": "https://rubrik.atlassian.net/browse/CDM-349453",
+    "timestamp": "2025-09-03 03:16:05",
+    "title": "CDM-349453: Host certificate error as (Agent.ThriftClientError)",
+    "long_summary": "Oracle host shows disconnected though agent is up and running.\n\n!qeaSMWL4EIjC9yxBZNwNU8m4nVFwujQyFZHMTqTynVA8EpFPnxyaBWN88odw9SXFC_N1E1mIfaHjKvpUpSL--EpPguQJcJx3luMqkWKR-teTRlpJllYW2y4w_squB0ruopemiLgcFDIth7Y-NYGtZ0BjgR6uDxe4Sbli5u7aI8OAAHEpjuCGy-jF1fRR-g|width=1600,height=487!\n\n!Kgw5_gKwKrf8AXD5BX8af7qofUh6UpN7TNGP9DvlT7x4TOWTbdgL1nRVxEKZDjmfSwErQfG5JjkZWVgUIe_hxacp8dUEHYt9f3-rlqL1tXHDmzplMaUeZ-CJ3bbs7AGmdVGnXWiFpyUxsyMUgG3c90mdHbJmN200mxJEbtPjTYf14jd2sRZUHfDLemQQuA|width=1600,height=653!\n\n!T4Biy0VkgKwu-8_Ogphx_cZI_evbM4JuwbFG8cEXB_ttFu-a3FGdOvSKxNo5otEhlSmqBY6_bRnMexRejivRCgVChm_gZ1KKfm9eHGv01lTlELGsSP_r-SdN5ghv-8IPUbnaBZS6KMO_euqdZyYqb0jz_UX6XmuX5kmYVFtSrJfrbRWDsPBVP1IJstvCmg|width=100%!\n\nREFESH Host job succeeding along with error\n\n{noformat}rksupport@VR5GCYAGROPP5:~$ rubrik_tool.py get_job_instance REFRESH_HOST_METADATA_0fa3b605-2618-4ef1-a701-1ff7bc2473c6_83204176-f961-4a15-bbc2-e6cfaa76aaf7:::0\r\n{\r\n  \"archived\": false,\r\n  \"endTime\": \"2022-12-26T08:45:40+0000\",\r\n  \"id\": \"REFRE...",
+    "action_items": [
+      "Investigate the root cause of the Agent.ThriftClientError leading to host certificate errors and Oracle host disconnection.",
+      "Review agent and host logs for any certificate validation or connectivity issues.",
+      "Coordinate with Mohit Agrawal (assignee) to begin troubleshooting and document findings.",
+      "Engage with the Oracle and infrastructure teams if deeper host or certificate issues are identified.",
+      "Validate if the agent is running with the correct certificates and permissions.",
+      "Test the REFRESH_HOST_METADATA job to reproduce and isolate the error.",
+      "Update the JIRA issue with troubleshooting steps, findings, and next actions.",
+      "Communicate progress to stakeholders, especially since this is prioritized for Fixit week.",
+      "Prepare a fix or workaround and validate resolution in a test environment before closing the issue.",
+      "Schedule a follow-up review to ensure the issue does not recur."
+    ],
+    "score": 0.78
+  }
+]
+
+💾 Output saved to: jira_output.json
+
+📊 Summary Statistics:
+- Total issues: 62
+- Average urgency score: 0.44
+- Highest urgency score: 0.85
+- Lowest urgency score: 0.10
+- Total action items: 241
+
+📋 Sample Entry:
+------------------------------
+Title: SPARK-610507: UFF Change Request  - percentage-rollout request for feature flag: RBS_ALLOW_REMOTE_INSTALLATION
+Score: 0.8
+Action Items: 6
+Timestamp: 2025-08-26 00:16:31
+Link: https://rubrik.atlassian.net/browse/SPARK-610507
+
+✅ Testing complete!
