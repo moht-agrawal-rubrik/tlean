@@ -149,10 +149,10 @@ def slack_result_to_analyzed_item(slack_result: dict) -> AnalyzedItem:
 def github_result_to_analyzed_item(github_result: dict) -> AnalyzedItem:
     """
     Convert GitHub analysis result to common AnalyzedItem format.
-    
+
     Args:
         github_result: Dictionary with GitHub-specific fields
-        
+
     Returns:
         AnalyzedItem instance
     """
@@ -164,4 +164,25 @@ def github_result_to_analyzed_item(github_result: dict) -> AnalyzedItem:
         long_summary=github_result.get("long_summary", ""),
         action_items=github_result.get("action_items", []),
         score=github_result.get("score", 0.0)
+    )
+
+
+def jira_result_to_analyzed_item(jira_result: dict) -> AnalyzedItem:
+    """
+    Convert JIRA analysis result to common AnalyzedItem format.
+
+    Args:
+        jira_result: Dictionary with JIRA-specific fields
+
+    Returns:
+        AnalyzedItem instance
+    """
+    return AnalyzedItem(
+        source="jira",
+        link=jira_result.get("link", ""),
+        timestamp=jira_result.get("timestamp", ""),
+        title=jira_result.get("title", ""),
+        long_summary=jira_result.get("long_summary", ""),
+        action_items=jira_result.get("action_items", []),
+        score=jira_result.get("score", 0.0)
     )

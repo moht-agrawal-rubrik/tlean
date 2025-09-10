@@ -9,12 +9,14 @@ from .models import (
     AnalyzedItem,
     create_analyzed_item,
     slack_result_to_analyzed_item,
-    github_result_to_analyzed_item
+    github_result_to_analyzed_item,
+    jira_result_to_analyzed_item
 )
 
 __all__ = [
     "AnalyzedItem",
     "create_analyzed_item",
     "slack_result_to_analyzed_item",
-    "github_result_to_analyzed_item"
+    "github_result_to_analyzed_item",
+    "jira_result_to_analyzed_item"
 ]
