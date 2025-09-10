@@ -452,8 +452,8 @@ async def send_daily_summary_to_slack(channel_id: str = "C09E27E6F8X"):
         header_blocks = create_header_blocks(len(analyzed_items))
         await send_blocks_to_slack(channel_id, header_blocks)
 
-        # 3. Send each item as individual message
-        logger.info(f"📤 Sending {len(analyzed_items)} individual messages...")
+        # 3. Send each item as individual message with details in thread
+        logger.info(f"📤 Sending {len(analyzed_items)} individual messages with threaded details...")
         sent_messages = []
         failed_messages = []
 
@@ -461,17 +461,36 @@ async def send_daily_summary_to_slack(channel_id: str = "C09E27E6F8X"):
             try:
                 logger.debug(f"📤 Sending message {i}/{len(analyzed_items)}")
 
-                # Create blocks for this single item
-                item_blocks = create_single_item_blocks(item, i, len(analyzed_items))
+                # Create summary blocks for main message (compact)
+                summary_blocks = create_summary_blocks(item, i, len(analyzed_items))
 
-                # Send to Slack
-                slack_response = await send_blocks_to_slack(channel_id, item_blocks)
-                sent_messages.append({
-                    "item_index": i,
-                    "title": item.get("title", "Untitled"),
-                    "source": item.get("source", "unknown"),
-                    "slack_ts": slack_response.get("ts")
-                })
+                # Send main summary message
+                main_response = await send_blocks_to_slack(channel_id, summary_blocks)
+                main_ts = main_response.get("ts")
+
+                if main_ts:
+                    # Create detailed blocks for thread reply
+                    detail_blocks = create_detail_blocks(item)
+
+                    # Send detailed message as thread reply
+                    await send_blocks_to_slack(channel_id, detail_blocks, thread_ts=main_ts)
+
+                    sent_messages.append({
+                        "item_index": i,
+                        "title": item.get("title", "Untitled"),
+                        "source": item.get("source", "unknown"),
+                        "main_ts": main_ts,
+                        "has_thread": True
+                    })
+                else:
+                    logger.warning(f"⚠️  No timestamp returned for message {i}, skipping thread")
+                    sent_messages.append({
+                        "item_index": i,
+                        "title": item.get("title", "Untitled"),
+                        "source": item.get("source", "unknown"),
+                        "main_ts": None,
+                        "has_thread": False
+                    })
 
                 # Small delay between messages to avoid rate limits
                 await asyncio.sleep(0.5)
@@ -548,9 +567,9 @@ def create_header_blocks(items_count: int) -> List[Dict[str, Any]]:
     return blocks
 
 
-def create_single_item_blocks(item: Dict[str, Any], item_index: int, total_items: int) -> List[Dict[str, Any]]:
+def create_summary_blocks(item: Dict[str, Any], item_index: int, total_items: int) -> List[Dict[str, Any]]:
     """
-    Create Slack blocks for a single analyzed item.
+    Create compact summary blocks for the main channel message.
 
     Args:
         item: Single analyzed item from the API
@@ -558,7 +577,7 @@ def create_single_item_blocks(item: Dict[str, Any], item_index: int, total_items
         total_items: Total number of items being sent
 
     Returns:
-        List of Slack blocks for this single item
+        List of Slack blocks for the summary message
     """
 
     blocks = []
@@ -599,36 +618,54 @@ def create_single_item_blocks(item: Dict[str, Any], item_index: int, total_items
             }
         })
 
-        # Timestamp context
-        timestamp = item.get("timestamp", "")
-        if timestamp:
-            # Format timestamp nicely
-            try:
-                # Try to parse and reformat timestamp
-                if "T" in timestamp:
-                    dt = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
-                    formatted_time = dt.strftime("%B %d, %Y at %I:%M %p")
-                else:
-                    formatted_time = timestamp
-            except:
-                formatted_time = timestamp
+        # Source context
+        source = item.get("source", "unknown")
+        source_display = source.upper()
 
-            context_text = f"📅 {formatted_time} • Score: {item.get('score', 0):.2f}"
+        blocks.append({
+            "type": "context",
+            "elements": [
+                {
+                    "type": "mrkdwn",
+                    "text": f"📍 Source: *{source_display}* • 💬 _Reply to this thread for details_"
+                }
+            ]
+        })
 
-            blocks.append({
-                "type": "context",
-                "elements": [
-                    {
-                        "type": "mrkdwn",
-                        "text": context_text
-                    }
-                ]
-            })
+    except Exception as e:
+        logger.error(f"❌ Failed to create summary block for item {item_index}: {e}")
+        # Add a simple error block
+        blocks.append({
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": f"⚠️ Error processing item {item_index}: {str(e)[:100]}"
+            }
+        })
+
+    return blocks
+
+
+def create_detail_blocks(item: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """
+    Create detailed blocks for the thread reply.
+
+    Args:
+        item: Single analyzed item from the API
+
+    Returns:
+        List of Slack blocks for the detailed thread message
+    """
+
+    blocks = []
+
+    try:
+        summary = item.get("long_summary", "")
+        action_items = item.get("action_items", [])
 
         # Summary section
-        summary = item.get("long_summary", "")
         if summary:
-            # Truncate if too long - Slack limit is 3000 characters
+            # Truncate if too long
             if len(summary) > 2800:
                 summary = summary[:2797] + "..."
 
@@ -636,14 +673,13 @@ def create_single_item_blocks(item: Dict[str, Any], item_index: int, total_items
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": summary
+                    "text": f"*📄 Summary:*\n{summary}"
                 }
             })
 
         # Action items section
-        action_items = item.get("action_items", [])
         if action_items:
-            action_text = "*Action Items:*\n"
+            action_text = "*✅ Action Items:*\n"
             for action in action_items:
                 action_line = f"• {action}\n"
                 # Check if adding this action would exceed limit
@@ -660,27 +696,26 @@ def create_single_item_blocks(item: Dict[str, Any], item_index: int, total_items
                 }
             })
 
+        # If no content, add a placeholder
+        if not summary and not action_items:
+            blocks.append({
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": "ℹ️ No additional details available for this item."
+                }
+            })
+
     except Exception as e:
-        logger.error(f"❌ Failed to create block for item {item_index}: {e}")
+        logger.error(f"❌ Failed to create detail blocks: {e}")
         # Add a simple error block
         blocks.append({
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": f"⚠️ Error processing item {item_index}: {str(e)[:100]}"
+                "text": f"⚠️ Error processing details: {str(e)[:100]}"
             }
         })
-
-    # Footer
-    blocks.append({
-        "type": "context",
-        "elements": [
-            {
-                "type": "mrkdwn",
-                "text": "🤖 Generated by Activity Analysis System • Use `/combined/analyzed-items-http` for raw data"
-            }
-        ]
-    })
 
     return blocks
 
@@ -707,13 +742,14 @@ def get_priority_indicator(score: float) -> str:
         return "⚪ INFO"
 
 
-async def send_blocks_to_slack(channel_id: str, blocks: List[Dict[str, Any]]) -> Dict[str, Any]:
+async def send_blocks_to_slack(channel_id: str, blocks: List[Dict[str, Any]], thread_ts: str = None) -> Dict[str, Any]:
     """
     Send blocks to Slack channel using chat.postMessage API.
 
     Args:
         channel_id: Slack channel ID
         blocks: List of Slack blocks to send
+        thread_ts: Optional thread timestamp to reply to a thread
 
     Returns:
         Slack API response
@@ -727,9 +763,13 @@ async def send_blocks_to_slack(channel_id: str, blocks: List[Dict[str, Any]]) ->
     # Prepare the payload
     payload = {
         "channel": channel_id,
-        "text": "Daily Activity Summary",  # Fallback text
+        "text": "Activity Summary" if not thread_ts else "Activity Details",  # Fallback text
         "blocks": blocks
     }
+
+    # Add thread_ts if this is a thread reply
+    if thread_ts:
+        payload["thread_ts"] = thread_ts
 
     # Send to Slack
     headers = {
