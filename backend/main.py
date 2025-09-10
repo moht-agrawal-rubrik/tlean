@@ -4,7 +4,9 @@ from dotenv import load_dotenv
 import logging
 import httpx
 import asyncio
-from typing import List
+import os
+from typing import List, Dict, Any
+from datetime import datetime
 from common.models import AnalyzedItem
 
 load_dotenv()
@@ -54,6 +56,7 @@ async def root():
             "health": "/health",
             "combined_direct": "/combined/analyzed-items (Direct function calls)",
             "combined_http": "/combined/analyzed-items-http (🔥 RECOMMENDED: HTTP calls to endpoints)",
+            "slack_summary": "/slack/send-daily-summary (🚀 NEW: Send formatted summary to Slack)",
             "github": "/github/prs" if GITHUB_ROUTER_AVAILABLE else "Not available",
             "jira": "/jira/issues" if JIRA_ROUTER_AVAILABLE else "Not available",
             "slack": "/slack/analyzed-messages",
@@ -397,3 +400,363 @@ async def make_http_request(client: httpx.AsyncClient, source: str, endpoint: st
     except Exception as e:
         logger.error(f"❌ {source}: Unexpected error - {e}")
         return []
+
+
+@app.post("/slack/send-daily-summary")
+async def send_daily_summary_to_slack(channel_id: str = "C09E27E6F8X"):
+    """
+    Fetch analyzed items and send each as individual Slack messages.
+
+    This endpoint:
+    1. Fetches analyzed items from /combined/analyzed-items-http
+    2. Sends each item as a separate formatted Slack message
+    3. Returns success/failure status with details
+
+    Args:
+        channel_id: Slack channel ID to send the messages to
+
+    Returns:
+        Dict with status and details of all messages sent
+    """
+
+    logger.info(f"📤 Starting individual message send to Slack channel: {channel_id}")
+
+    try:
+        # 1. Fetch analyzed items from combined endpoint
+        logger.info("📊 Fetching analyzed items from combined endpoint...")
+
+        async with httpx.AsyncClient(timeout=600.0) as client:
+            response = await client.get("http://localhost:8000/combined/analyzed-items-http")
+
+            if response.status_code != 200:
+                raise HTTPException(
+                    status_code=500,
+                    detail=f"Failed to fetch analyzed items: HTTP {response.status_code}"
+                )
+
+            analyzed_items = response.json()
+            logger.info(f"✅ Retrieved {len(analyzed_items)} analyzed items")
+
+        if not analyzed_items:
+            logger.info("ℹ️  No analyzed items to send")
+            return {
+                "status": "success",
+                "message": "No items to send",
+                "items_count": 0,
+                "messages_sent": 0,
+                "channel_id": channel_id
+            }
+
+        # 2. Send header message first
+        logger.info("📤 Sending header message...")
+        header_blocks = create_header_blocks(len(analyzed_items))
+        await send_blocks_to_slack(channel_id, header_blocks)
+
+        # 3. Send each item as individual message
+        logger.info(f"📤 Sending {len(analyzed_items)} individual messages...")
+        sent_messages = []
+        failed_messages = []
+
+        for i, item in enumerate(analyzed_items, 1):
+            try:
+                logger.debug(f"📤 Sending message {i}/{len(analyzed_items)}")
+
+                # Create blocks for this single item
+                item_blocks = create_single_item_blocks(item, i, len(analyzed_items))
+
+                # Send to Slack
+                slack_response = await send_blocks_to_slack(channel_id, item_blocks)
+                sent_messages.append({
+                    "item_index": i,
+                    "title": item.get("title", "Untitled"),
+                    "source": item.get("source", "unknown"),
+                    "slack_ts": slack_response.get("ts")
+                })
+
+                # Small delay between messages to avoid rate limits
+                await asyncio.sleep(0.5)
+
+            except Exception as e:
+                logger.error(f"❌ Failed to send message {i}/{len(analyzed_items)}: {e}")
+                failed_messages.append({
+                    "item_index": i,
+                    "title": item.get("title", "Untitled"),
+                    "error": str(e)
+                })
+
+        logger.info(f"✅ Sent {len(sent_messages)}/{len(analyzed_items)} messages successfully")
+
+        return {
+            "status": "success" if not failed_messages else "partial_success",
+            "message": f"Sent {len(sent_messages)}/{len(analyzed_items)} messages successfully",
+            "items_count": len(analyzed_items),
+            "messages_sent": len(sent_messages),
+            "messages_failed": len(failed_messages),
+            "channel_id": channel_id,
+            "sent_messages": sent_messages,
+            "failed_messages": failed_messages
+        }
+
+    except Exception as e:
+        logger.error(f"❌ Failed to send messages to Slack: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to send messages: {str(e)}"
+        )
+
+
+def create_header_blocks(items_count: int) -> List[Dict[str, Any]]:
+    """
+    Create header blocks for the daily summary.
+
+    Args:
+        items_count: Number of items that will be sent
+
+    Returns:
+        List of Slack blocks for the header message
+    """
+
+    blocks = []
+
+    # Header block
+    header_text = f"Daily Activity Summary - {datetime.now().strftime('%B %d, %Y')}"
+
+    blocks.append({
+        "type": "header",
+        "text": {
+            "type": "plain_text",
+            "text": header_text,
+            "emoji": True
+        }
+    })
+
+    # Context block
+    context_text = f"📊 Found {items_count} items requiring attention • Sending as individual messages"
+
+    blocks.append({
+        "type": "context",
+        "elements": [
+            {
+                "type": "mrkdwn",
+                "text": context_text
+            }
+        ]
+    })
+
+    blocks.append({"type": "divider"})
+
+    return blocks
+
+
+def create_single_item_blocks(item: Dict[str, Any], item_index: int, total_items: int) -> List[Dict[str, Any]]:
+    """
+    Create Slack blocks for a single analyzed item.
+
+    Args:
+        item: Single analyzed item from the API
+        item_index: Index of this item (1-based)
+        total_items: Total number of items being sent
+
+    Returns:
+        List of Slack blocks for this single item
+    """
+
+    blocks = []
+
+    # Item number indicator
+    blocks.append({
+        "type": "context",
+        "elements": [
+            {
+                "type": "mrkdwn",
+                "text": f"📋 Item {item_index} of {total_items}"
+            }
+        ]
+    })
+
+    try:
+        # Get source emoji
+        source_emoji = get_source_emoji(item.get("source", ""))
+
+        # Priority indicator based on score
+        priority_indicator = get_priority_indicator(item.get("score", 0))
+
+        # Main section with title and link
+        title = item.get("title", "Untitled")
+        link = item.get("link", "#")
+
+        # Truncate title if too long
+        if len(title) > 200:
+            title = title[:197] + "..."
+
+        title_text = f"{source_emoji} {priority_indicator} *<{link}|{title}>*"
+
+        blocks.append({
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": title_text
+            }
+        })
+
+        # Timestamp context
+        timestamp = item.get("timestamp", "")
+        if timestamp:
+            # Format timestamp nicely
+            try:
+                # Try to parse and reformat timestamp
+                if "T" in timestamp:
+                    dt = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
+                    formatted_time = dt.strftime("%B %d, %Y at %I:%M %p")
+                else:
+                    formatted_time = timestamp
+            except:
+                formatted_time = timestamp
+
+            context_text = f"📅 {formatted_time} • Score: {item.get('score', 0):.2f}"
+
+            blocks.append({
+                "type": "context",
+                "elements": [
+                    {
+                        "type": "mrkdwn",
+                        "text": context_text
+                    }
+                ]
+            })
+
+        # Summary section
+        summary = item.get("long_summary", "")
+        if summary:
+            # Truncate if too long - Slack limit is 3000 characters
+            if len(summary) > 2800:
+                summary = summary[:2797] + "..."
+
+            blocks.append({
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": summary
+                }
+            })
+
+        # Action items section
+        action_items = item.get("action_items", [])
+        if action_items:
+            action_text = "*Action Items:*\n"
+            for action in action_items:
+                action_line = f"• {action}\n"
+                # Check if adding this action would exceed limit
+                if len(action_text + action_line) > 2800:
+                    action_text += "• ... (more items truncated)"
+                    break
+                action_text += action_line
+
+            blocks.append({
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": action_text.strip()
+                }
+            })
+
+    except Exception as e:
+        logger.error(f"❌ Failed to create block for item {item_index}: {e}")
+        # Add a simple error block
+        blocks.append({
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": f"⚠️ Error processing item {item_index}: {str(e)[:100]}"
+            }
+        })
+
+    # Footer
+    blocks.append({
+        "type": "context",
+        "elements": [
+            {
+                "type": "mrkdwn",
+                "text": "🤖 Generated by Activity Analysis System • Use `/combined/analyzed-items-http` for raw data"
+            }
+        ]
+    })
+
+    return blocks
+
+
+def get_source_emoji(source: str) -> str:
+    """Get emoji for different sources."""
+    source_emojis = {
+        "github": "🐙",
+        "jira": "🎫",
+        "slack": "💬"
+    }
+    return source_emojis.get(source.lower(), "📋")
+
+
+def get_priority_indicator(score: float) -> str:
+    """Get priority indicator based on score."""
+    if score >= 0.8:
+        return "🔴 HIGH"
+    elif score >= 0.6:
+        return "🟡 MEDIUM"
+    elif score >= 0.4:
+        return "🟢 LOW"
+    else:
+        return "⚪ INFO"
+
+
+async def send_blocks_to_slack(channel_id: str, blocks: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """
+    Send blocks to Slack channel using chat.postMessage API.
+
+    Args:
+        channel_id: Slack channel ID
+        blocks: List of Slack blocks to send
+
+    Returns:
+        Slack API response
+    """
+
+    # Get Slack bot token from environment
+    slack_bot_token = os.getenv("SLACK_BOT_TOKEN")
+    if not slack_bot_token:
+        raise ValueError("SLACK_BOT_TOKEN environment variable not set")
+
+    # Prepare the payload
+    payload = {
+        "channel": channel_id,
+        "text": "Daily Activity Summary",  # Fallback text
+        "blocks": blocks
+    }
+
+    # Send to Slack
+    headers = {
+        "Authorization": f"Bearer {slack_bot_token}",
+        "Content-Type": "application/json; charset=utf-8"
+    }
+
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        response = await client.post(
+            "https://slack.com/api/chat.postMessage",
+            headers=headers,
+            json=payload
+        )
+
+        if response.status_code != 200:
+            raise HTTPException(
+                status_code=response.status_code,
+                detail=f"Slack API request failed: {response.text}"
+            )
+
+        slack_response = response.json()
+
+        if not slack_response.get("ok"):
+            error_msg = slack_response.get("error", "Unknown error")
+            raise HTTPException(
+                status_code=400,
+                detail=f"Slack API error: {error_msg}"
+            )
+
+        return slack_response
