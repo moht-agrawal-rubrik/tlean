@@ -1,0 +1,349 @@
+{
+    "ok": true,
+    "query": "@satya.prakash",
+    "messages":
+    {
+        "total": 6,
+        "pagination":
+        {
+            "total_count": 6,
+            "page": 1,
+            "per_page": 20,
+            "page_count": 1,
+            "first": 1,
+            "last": 6
+        },
+        "paging":
+        {
+            "count": 20,
+            "total": 6,
+            "page": 1,
+            "pages": 1
+        },
+        "matches":
+        [
+            {
+                "db_message":
+                {},
+                "iid": "6e0aeb2a-5be8-42ff-ba31-0b15de310ff3",
+                "team": "T09DVNACUQP",
+                "score": 0,
+                "channel":
+                {
+                    "id": "D09E7BBKUE9",
+                    "is_channel": false,
+                    "is_group": false,
+                    "is_im": true,
+                    "is_mpim": false,
+                    "is_shared": false,
+                    "is_org_shared": false,
+                    "is_ext_shared": false,
+                    "is_private": true,
+                    "name": "U09E7BBEB9T",
+                    "user": "U09E7BBEB9T"
+                },
+                "type": "im",
+                "user": "U09E7BBEB9T",
+                "username": "mridul.chandak",
+                "ts": "1757483543.855429",
+                "blocks":
+                [
+                    {
+                        "type": "rich_text",
+                        "block_id": "bEC9T",
+                        "elements":
+                        [
+                            {
+                                "type": "rich_text_section",
+                                "elements":
+                                [
+                                    {
+                                        "type": "user",
+                                        "user_id": "U09DVNAD36K"
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " hi"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "text": "<@U09DVNAD36K> hi",
+                "permalink": "https://hackthon-test-group.slack.com/archives/D09E7BBKUE9/p1757483543855429",
+                "no_reactions": true
+            },
+            {
+                "db_message":
+                {},
+                "iid": "98620149-a911-47c0-9114-8565d58bdac4",
+                "team": "T09DVNACUQP",
+                "score": 0,
+                "channel":
+                {
+                    "id": "C09DVNARBQF",
+                    "is_channel": true,
+                    "is_group": false,
+                    "is_im": false,
+                    "is_mpim": false,
+                    "is_shared": false,
+                    "is_org_shared": false,
+                    "is_ext_shared": false,
+                    "is_private": false,
+                    "name": "all-hackthon-test",
+                    "pending_shared":
+                    [],
+                    "is_pending_ext_shared": false
+                },
+                "type": "message",
+                "user": "U09E7BBEB9T",
+                "username": "mridul.chandak",
+                "ts": "1757483142.117289",
+                "blocks":
+                [
+                    {
+                        "type": "rich_text",
+                        "block_id": "EXiF3",
+                        "elements":
+                        [
+                            {
+                                "type": "rich_text_section",
+                                "elements":
+                                [
+                                    {
+                                        "type": "user",
+                                        "user_id": "U09DVNAD36K"
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " hack test"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "text": "<@U09DVNAD36K> hack test",
+                "permalink": "https://hackthon-test-group.slack.com/archives/C09DVNARBQF/p1757483142117289",
+                "no_reactions": true
+            },
+            {
+                "db_message":
+                {},
+                "iid": "4c802309-576f-44a7-b38e-b46e313a82b7",
+                "team": "T09DVNACUQP",
+                "score": 0,
+                "channel":
+                {
+                    "id": "C09EFKTUUQ2",
+                    "is_channel": true,
+                    "is_group": false,
+                    "is_im": false,
+                    "is_mpim": false,
+                    "is_shared": false,
+                    "is_org_shared": false,
+                    "is_ext_shared": false,
+                    "is_private": true,
+                    "name": "team",
+                    "pending_shared":
+                    [],
+                    "is_pending_ext_shared": false
+                },
+                "type": "message",
+                "user": "U09E7BBEB9T",
+                "username": "mridul.chandak",
+                "ts": "1757483137.692699",
+                "blocks":
+                [
+                    {
+                        "type": "rich_text",
+                        "block_id": "0WmNF",
+                        "elements":
+                        [
+                            {
+                                "type": "rich_text_section",
+                                "elements":
+                                [
+                                    {
+                                        "type": "user",
+                                        "user_id": "U09DVNAD36K"
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " team"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "text": "<@U09DVNAD36K> team",
+                "permalink": "https://hackthon-test-group.slack.com/archives/C09EFKTUUQ2/p1757483137692699",
+                "no_reactions": true
+            },
+            {
+                "db_message":
+                {},
+                "iid": "689d7658-b370-4ef5-b6b2-860790cdbab0",
+                "team": "T09DVNACUQP",
+                "score": 0,
+                "channel":
+                {
+                    "id": "C09E7BFQWSZ",
+                    "is_channel": true,
+                    "is_group": false,
+                    "is_im": false,
+                    "is_mpim": false,
+                    "is_shared": false,
+                    "is_org_shared": false,
+                    "is_ext_shared": false,
+                    "is_private": false,
+                    "name": "new-channel",
+                    "pending_shared":
+                    [],
+                    "is_pending_ext_shared": false
+                },
+                "type": "message",
+                "user": "U09E7BBEB9T",
+                "username": "mridul.chandak",
+                "ts": "1757483133.533719",
+                "blocks":
+                [
+                    {
+                        "type": "rich_text",
+                        "block_id": "B5l2A",
+                        "elements":
+                        [
+                            {
+                                "type": "rich_text_section",
+                                "elements":
+                                [
+                                    {
+                                        "type": "user",
+                                        "user_id": "U09DVNAD36K"
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " new channel"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "text": "<@U09DVNAD36K> new channel",
+                "permalink": "https://hackthon-test-group.slack.com/archives/C09E7BFQWSZ/p1757483133533719",
+                "no_reactions": true
+            },
+            {
+                "db_message":
+                {},
+                "iid": "bc445f9b-24d1-4136-ba6f-541da28054e3",
+                "team": "T09DVNACUQP",
+                "score": 0,
+                "channel":
+                {
+                    "id": "C09DVNART47",
+                    "is_channel": true,
+                    "is_group": false,
+                    "is_im": false,
+                    "is_mpim": false,
+                    "is_shared": false,
+                    "is_org_shared": false,
+                    "is_ext_shared": false,
+                    "is_private": false,
+                    "name": "social",
+                    "pending_shared":
+                    [],
+                    "is_pending_ext_shared": false
+                },
+                "type": "message",
+                "user": "U09E7BBEB9T",
+                "username": "mridul.chandak",
+                "ts": "1757483127.882209",
+                "blocks":
+                [
+                    {
+                        "type": "rich_text",
+                        "block_id": "/HfYt",
+                        "elements":
+                        [
+                            {
+                                "type": "rich_text_section",
+                                "elements":
+                                [
+                                    {
+                                        "type": "user",
+                                        "user_id": "U09DVNAD36K"
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " social"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "text": "<@U09DVNAD36K> social",
+                "permalink": "https://hackthon-test-group.slack.com/archives/C09DVNART47/p1757483127882209",
+                "no_reactions": true
+            },
+            {
+                "db_message":
+                {},
+                "iid": "8fc029e0-40c2-4a03-9894-512da57820a3",
+                "team": "T09DVNACUQP",
+                "score": 0,
+                "channel":
+                {
+                    "id": "C09DVNARBQF",
+                    "is_channel": true,
+                    "is_group": false,
+                    "is_im": false,
+                    "is_mpim": false,
+                    "is_shared": false,
+                    "is_org_shared": false,
+                    "is_ext_shared": false,
+                    "is_private": false,
+                    "name": "all-hackthon-test",
+                    "pending_shared":
+                    [],
+                    "is_pending_ext_shared": false
+                },
+                "type": "message",
+                "user": "U09DVNAD36K",
+                "username": "satya.prakash",
+                "ts": "1757420827.371629",
+                "blocks":
+                [
+                    {
+                        "type": "rich_text",
+                        "block_id": "t7paA",
+                        "elements":
+                        [
+                            {
+                                "type": "rich_text_section",
+                                "elements":
+                                [
+                                    {
+                                        "type": "user",
+                                        "user_id": "U09DVNAD36K"
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": " what is the update?"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "text": "<@U09DVNAD36K> what is the update?",
+                "permalink": "https://hackthon-test-group.slack.com/archives/C09DVNARBQF/p1757420827371629",
+                "no_reactions": true
+            }
+        ]
+    }
+}

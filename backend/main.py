@@ -1,4 +1,7 @@
 from fastapi import FastAPI
+from slack.endpoints import router as slack_router
+from dotenv import load_dotenv
+load_dotenv()
 
 # Import routers
 try:
@@ -18,6 +21,10 @@ app = FastAPI(
 # Include routers
 if GITHUB_ROUTER_AVAILABLE:
     app.include_router(github_router)
+    
+    
+# Include Slack router
+app.include_router(slack_router)
 
 # Root endpoint
 @app.get("/")
@@ -31,6 +38,7 @@ async def root():
             "docs": "/docs"
         }
     }
+
 
 # Hello endpoint with a path parameter
 @app.get("/hello/{name}")
