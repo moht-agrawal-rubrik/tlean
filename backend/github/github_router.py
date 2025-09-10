@@ -6,13 +6,16 @@ reading configuration from environment variables.
 """
 
 import os
-from typing import List, Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
+
+# Import common models
+from common.models import AnalyzedItem, github_result_to_analyzed_item
 
 # Import GitHub modules
 try:
@@ -22,26 +25,6 @@ except ImportError:
         from github_candidate_generator import GitHubCandidateGenerator
     except ImportError:
         raise ImportError("Could not import GitHubCandidateGenerator. Make sure the github module is available.")
-
-
-# Response models
-class ProcessedPRData(BaseModel):
-    """Model for processed PR data."""
-    source: str
-    link: str
-    timestamp: str
-    title: str
-    long_summary: str
-    action_items: List[str]
-    score: float
-
-
-class GitHubResponse(BaseModel):
-    """Response model for GitHub endpoints."""
-    success: bool
-    message: str
-    data: List[ProcessedPRData]
-    total_count: int
 
 
 class ErrorResponse(BaseModel):
@@ -76,15 +59,15 @@ def get_github_config():
     return github_token, github_username, github_limit
 
 
-@router.get("/prs", response_model=GitHubResponse)
+@router.get("/prs", response_model=List[AnalyzedItem])
 async def get_user_prs(
     state: str = Query("open", description="PR state: open, closed, or all"),
     limit: Optional[int] = Query(None, description="Override default limit from environment")
 ):
     """
     Get processed PR data for the configured GitHub user.
-    
-    Returns only the processed data (not raw data) in JSON format.
+
+    Returns a list of analyzed items in the common format used across all integrations.
     Configuration is read from environment variables:
     - GITHUB_TOKEN: GitHub personal access token
     - GITHUB_USERNAME: GitHub username to fetch PRs for
@@ -93,41 +76,38 @@ async def get_user_prs(
     try:
         # Get configuration
         github_token, github_username, default_limit = get_github_config()
-        
+
         # Use provided limit or default from environment
         fetch_limit = limit if limit is not None else default_limit
-        
+
         # Validate limit
         if fetch_limit <= 0 or fetch_limit > 100:
             raise HTTPException(
                 status_code=400,
                 detail="Limit must be between 1 and 100"
             )
-        
+
         # Initialize generator
         generator = GitHubCandidateGenerator(github_token)
-        
+
         # Fetch user PRs
         candidates = generator.fetch_user_prs(
             username=github_username,
             state=state,
             limit=fetch_limit
         )
-        
-        # Extract only processed data
-        processed_items = []
+
+        # Convert to common AnalyzedItem format
+        analyzed_items = []
         for candidate in candidates:
             processed_data = candidate.get("processed_data", {})
             if processed_data:
-                processed_items.append(ProcessedPRData(**processed_data))
-        
-        return GitHubResponse(
-            success=True,
-            message=f"Successfully fetched {len(processed_items)} PRs for user {github_username}",
-            data=processed_items,
-            total_count=len(processed_items)
-        )
-        
+                analyzed_item = github_result_to_analyzed_item(processed_data)
+                analyzed_items.append(analyzed_item)
+
+        # Return list of analyzed items directly
+        return analyzed_items
+
     except HTTPException:
         # Re-raise HTTP exceptions
         raise
