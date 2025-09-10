@@ -6,6 +6,7 @@ with context and replies for specific users.
 """
 
 import logging
+import os
 from typing import Optional
 from datetime import datetime
 from fastapi import APIRouter, HTTPException, Query, Depends
@@ -24,6 +25,9 @@ from typing import List
 
 # Configure logging
 logger = logging.getLogger(__name__)
+
+# Load default username from environment
+DEFAULT_USERNAME = os.getenv("DEFAULT_SLACK_USERNAME", "satya.prakash")
 
 # Create router for Slack endpoints
 router = APIRouter(prefix="/slack", tags=["slack"])
@@ -267,8 +271,9 @@ async def search_messages(
 
 
 @router.get("/user/{username}/analyzed-messages", response_model=List[AnalyzedItem])
+@router.get("/analyzed-messages", response_model=List[AnalyzedItem])
 async def get_analyzed_user_messages(
-    username: str,
+    username: str = None,
     context_limit: int = Query(
         default=10,
         ge=1,
@@ -308,6 +313,11 @@ async def get_analyzed_user_messages(
         HTTPException: If the request fails or analysis encounters errors
     """
     try:
+        # Use default username if none provided
+        if username is None:
+            username = DEFAULT_USERNAME
+            logger.info(f"🔧 Using default username from environment: {username}")
+
         logger.info(f"Starting analyzed message retrieval for user: {username}")
 
         # Step 1: Get messages with context using existing functionality
