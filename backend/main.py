@@ -35,6 +35,13 @@ async def root():
         "available_endpoints": {
             "health": "/health",
             "github": "/github/prs" if GITHUB_ROUTER_AVAILABLE else "Not available",
+            "slack": {
+                "health": "/slack/health",
+                "user_messages": "/slack/user/{username}/messages",
+                "user_summary": "/slack/user/{username}/messages/summary",
+                "analyzed_messages": "/slack/user/{username}/analyzed-messages (LLM-powered insights)",
+                "search": "/slack/search"
+            },
             "docs": "/docs"
         }
     }

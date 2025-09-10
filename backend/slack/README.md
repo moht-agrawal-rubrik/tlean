@@ -23,13 +23,38 @@ This API implements the workflow described in your curl commands:
 
 ## API Endpoints
 
-### Main Endpoint
+### 🆕 Analyzed Messages Endpoint (Recommended)
+
+```
+GET /slack/user/{username}/analyzed-messages
+```
+
+**The main endpoint that provides LLM-analyzed insights similar to GitHub format.**
+
+This endpoint:
+1. Fetches all messages mentioning the user with context
+2. Filters out messages that don't need attention (already responded/resolved)
+3. Processes remaining messages through LLM for analysis
+4. Returns structured insights with action items and summaries
+
+**Parameters:**
+- `username` (path): The username to search for (e.g., 'satya.prakash')
+- `context_limit` (query, optional): Number of previous/next messages (1-50, default: 10)
+- `search_limit` (query, optional): Maximum messages to search (1-100, default: 20)
+- `max_age_days` (query, optional): Maximum age of messages to consider (1-90, default: 30)
+
+**Example:**
+```bash
+curl "http://localhost:8000/slack/user/satya.prakash/analyzed-messages?context_limit=10&search_limit=20&max_age_days=30"
+```
+
+### Raw Messages Endpoint
 
 ```
 GET /slack/user/{username}/messages
 ```
 
-Retrieves all messages mentioning a user with full context and replies.
+Retrieves all messages mentioning a user with full context and replies (without filtering or LLM analysis).
 
 **Parameters:**
 - `username` (path): The username to search for (e.g., 'satya.prakash')

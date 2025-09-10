@@ -13,6 +13,8 @@ from .models import (
     SlackMessageModel,
     MessageContextModel,
     UserMessagesResponse,
+    AnalyzedMessagesResponse,
+    AnalyzedSlackMessageModel,
     ErrorResponse,
     SlackAPIStatus
 )
@@ -24,6 +26,8 @@ from .exceptions import (
     SlackNetworkError,
     SlackDataParsingError
 )
+from .message_filter import MessageAttentionFilter, filter_messages_for_attention
+from .llm_analyzer import SlackMessageAnalyzer, analyze_message_contexts
 
 __all__ = [
     "SlackAPI",
@@ -32,6 +36,8 @@ __all__ = [
     "SlackMessageModel",
     "MessageContextModel",
     "UserMessagesResponse",
+    "AnalyzedMessagesResponse",
+    "AnalyzedSlackMessageModel",
     "ErrorResponse",
     "SlackAPIStatus",
     "SlackAPIError",
@@ -39,5 +45,9 @@ __all__ = [
     "SlackRateLimitError",
     "SlackNetworkError",
     "SlackDataParsingError",
+    "MessageAttentionFilter",
+    "filter_messages_for_attention",
+    "SlackMessageAnalyzer",
+    "analyze_message_contexts",
     "router"
 ]

@@ -188,3 +188,60 @@ def message_context_to_model(context: 'MessageContext') -> MessageContextModel:
         next_messages=[slack_message_to_model(msg) for msg in context.next_messages],
         replies=[slack_message_to_model(msg) for msg in context.replies]
     )
+
+
+# New models for analyzed message responses (similar to GitHub format)
+
+class MessageCountModel(BaseModel):
+    """Model for message count statistics."""
+    previous: int = Field(..., description="Number of previous messages")
+    next: int = Field(..., description="Number of next messages")
+    replies: int = Field(..., description="Number of replies")
+
+
+class AnalyzedSlackMessageModel(BaseModel):
+    """Model for analyzed Slack message (similar to GitHub format)."""
+    source: str = Field(default="slack", description="Source platform")
+    link: str = Field(..., description="Permalink to the Slack message")
+    timestamp: str = Field(..., description="Formatted timestamp of the message")
+    title: str = Field(..., description="Brief descriptive title of the conversation")
+    long_summary: str = Field(..., description="Detailed summary of the conversation and context")
+    action_items: List[str] = Field(default_factory=list, description="List of action items that need attention")
+    score: float = Field(..., ge=0.0, le=1.0, description="Attention score between 0.0 and 1.0")
+    urgency: str = Field(default="medium", description="Urgency level: high, medium, or low")
+    conversation_status: str = Field(default="needs_review", description="Status: needs_response, informational, resolved, needs_review")
+    key_participants: List[str] = Field(default_factory=list, description="List of key participants in the conversation")
+    channel_context: str = Field(..., description="Channel name or context where conversation occurred")
+    message_count: MessageCountModel = Field(..., description="Statistics about related messages")
+
+    class Config:
+        """Pydantic configuration."""
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
+
+
+class AnalyzedMessagesResponse(BaseModel):
+    """Response model for analyzed Slack messages API endpoint."""
+    user_id: str = Field(..., description="The user ID that was analyzed")
+    username: str = Field(..., description="The username that was analyzed")
+    total_messages_found: int = Field(..., description="Total number of messages found initially")
+    messages_needing_attention: int = Field(..., description="Number of messages that need attention after filtering")
+    analyzed_messages: List[AnalyzedSlackMessageModel] = Field(
+        ...,
+        description="List of analyzed messages with LLM insights"
+    )
+    analysis_parameters: Dict[str, Any] = Field(
+        default_factory=dict,
+        description="Parameters used for analysis and filtering"
+    )
+    timestamp: datetime = Field(
+        default_factory=datetime.now,
+        description="When this analysis was performed"
+    )
+
+    class Config:
+        """Pydantic configuration."""
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
