@@ -232,76 +232,41 @@ class GitHubCandidateGenerator:
     
     def process_with_llm(self, pr_data: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Process PR data with LLM to generate action items.
-        
+        Process PR data to generate action items and format according to guidelines.md.
+
         Args:
             pr_data: Structured PR data
-            
+
         Returns:
-            Processed data with LLM-generated content
-            
-        Note: This is a placeholder for LLM integration
+            Processed data in guidelines.md format
         """
-        # TODO: Implement LLM processing
-        # This will analyze the PR data and generate:
-        # - Enhanced title
-        # - Summary
-        # - Action items with priorities
-        # - Next steps
-        # - Urgency score for ranking
-        
-        # Placeholder implementation
-        action_items = []
-        
-        # Simple heuristics for demo (replace with LLM)
-        if pr_data['metadata']['state'] == 'open':
-            action_items.append({
-                "item": f"Review PR: {pr_data['pr_title']}",
-                "priority": "medium",
-                "next_steps": ["Read description", "Review code changes", "Test locally"]
-            })
-        
-        if pr_data['comments']['inline_comments']:
-            action_items.append({
-                "item": "Address code review comments",
-                "priority": "high",
-                "next_steps": ["Review inline comments", "Make necessary changes", "Respond to reviewers"]
-            })
-        
+        # Import the new processor
+        try:
+            from .pr_processor import process_github_pr_data
+        except ImportError:
+            from pr_processor import process_github_pr_data
+
+        # Use the new enhanced processor
+        processed_data = process_github_pr_data(pr_data)
+
+        # Return in the expected format for backward compatibility
         return {
             "source": "github",
             "candidate_id": f"github_pr_{pr_data['metadata']['number']}",
             "raw_data": pr_data,
-            "processed_data": {
-                "title": f"PR Review: {pr_data['pr_title']}",
-                "summary": pr_data['pr_summary'][:200] + "..." if len(pr_data['pr_summary']) > 200 else pr_data['pr_summary'],
-                "action_items": action_items,
-                "urgency_score": self._calculate_urgency_score(pr_data),
-                "context": f"GitHub PR in {pr_data['metadata']['base_branch']} branch"
-            }
+            "processed_data": processed_data
         }
     
     def _calculate_urgency_score(self, pr_data: Dict[str, Any]) -> float:
-        """Calculate urgency score for ranking (0.0 to 1.0)."""
-        score = 0.5  # Base score
-        
-        # Increase urgency for open PRs
-        if pr_data['metadata']['state'] == 'open':
-            score += 0.2
-        
-        # Increase urgency for PRs with many comments
-        if pr_data['statistics']['total_comments'] > 5:
-            score += 0.2
-        
-        # Increase urgency for PRs with recent activity
-        updated_at = datetime.fromisoformat(pr_data['metadata']['updated_at'].replace('Z', '+00:00'))
-        days_since_update = (datetime.now(updated_at.tzinfo) - updated_at).days
-        if days_since_update < 1:
-            score += 0.3
-        elif days_since_update < 3:
-            score += 0.1
-        
-        return min(score, 1.0)
+        """Calculate urgency score for ranking (0.0 to 1.0) using enhanced algorithm."""
+        # Import the new processor for scoring
+        try:
+            from .pr_processor import PRProcessor
+        except ImportError:
+            from pr_processor import PRProcessor
+
+        processor = PRProcessor()
+        return processor._calculate_urgency_score(pr_data)
     
     def get_pr_candidate(self, pr_url: str) -> Dict[str, Any]:
         """
