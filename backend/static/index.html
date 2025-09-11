@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Analysis Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .animate-pulse-fast {
+            animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            50% {
+                opacity: .5;
+            }
+        }
+        .priority-high { @apply bg-red-100 text-red-800 border-red-200; }
+        .priority-medium { @apply bg-yellow-100 text-yellow-800 border-yellow-200; }
+        .priority-low { @apply bg-green-100 text-green-800 border-green-200; }
+        .priority-info { @apply bg-gray-100 text-gray-800 border-gray-200; }
+        
+        .source-github { @apply bg-purple-50 border-l-purple-500; }
+        .source-jira { @apply bg-blue-50 border-l-blue-500; }
+        .source-slack { @apply bg-green-50 border-l-green-500; }
+
+        /* Custom details/summary styling */
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+        details summary {
+            list-style: none;
+        }
+        details[open] summary {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Activity Analysis Dashboard</h1>
+                    <p class="text-gray-600 mt-1">Your prioritized action items from GitHub, JIRA, and Slack</p>
+                </div>
+                <button id="refresh-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    <span>Refresh</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Stats Bar -->
+        <div id="stats-bar" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 hidden">
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <div class="text-2xl font-bold text-gray-900" id="total-items">0</div>
+                <div class="text-sm text-gray-600">Total Items</div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <div class="text-2xl font-bold text-red-600" id="high-priority">0</div>
+                <div class="text-sm text-gray-600">High Priority</div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <div class="text-2xl font-bold text-blue-600" id="github-count">0</div>
+                <div class="text-sm text-gray-600">GitHub</div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-sm border">
+                <div class="text-2xl font-bold text-green-600" id="slack-count">0</div>
+                <div class="text-sm text-gray-600">Slack</div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="bg-white rounded-lg shadow-md">
+            <!-- Loading State -->
+            <div id="loading-state" class="p-8">
+                <div class="text-center mb-6">
+                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                    <p class="text-gray-600 mt-2">Loading your activity items...</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="animate-pulse-fast h-20 bg-gray-200 rounded-lg"></div>
+                    <div class="animate-pulse-fast h-20 bg-gray-200 rounded-lg"></div>
+                    <div class="animate-pulse-fast h-20 bg-gray-200 rounded-lg"></div>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div id="error-state" class="hidden p-8 text-center">
+                <div class="text-red-600 mb-4">
+                    <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Failed to Load Data</h3>
+                <p class="text-gray-600 mb-4" id="error-message">Something went wrong while fetching your activity items.</p>
+                <button id="retry-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                    Try Again
+                </button>
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="hidden p-8 text-center">
+                <div class="text-gray-400 mb-4">
+                    <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">No Items Found</h3>
+                <p class="text-gray-600">No activity items requiring attention at this time.</p>
+            </div>
+
+            <!-- Items List -->
+            <div id="items-container" class="hidden">
+                <div class="p-6 border-b">
+                    <h2 class="text-xl font-semibold text-gray-900">Activity Items</h2>
+                    <p class="text-gray-600 text-sm mt-1">Sorted by priority score (highest first)</p>
+                </div>
+                <div id="items-list" class="divide-y divide-gray-200">
+                    <!-- Items will be inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Send to Slack Button -->
+        <div class="mt-8 text-center">
+            <button id="send-slack-btn" class="hidden bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg flex items-center space-x-2 mx-auto transition-colors">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52-2.523c0-1.393 1.135-2.528 2.52-2.528h2.52v2.528c0 1.393-1.135 2.528-2.52 2.528zM6.313 17.094h6.734a2.528 2.528 0 0 0 2.52-2.528 2.528 2.528 0 0 0-2.52-2.528H6.313v5.056zM18.958 8.835a2.528 2.528 0 0 1 2.52 2.523c0 1.393-1.135 2.528-2.52 2.528h-2.52V8.835c0-1.393 1.135-2.528 2.52-2.528zM17.687 6.906H10.953a2.528 2.528 0 0 0-2.52 2.528 2.528 2.528 0 0 0 2.52 2.528h6.734V6.906z"/>
+                </svg>
+                <span>Send Summary to Slack</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:8000';
+        
+        // DOM Elements
+        const loadingState = document.getElementById('loading-state');
+        const errorState = document.getElementById('error-state');
+        const emptyState = document.getElementById('empty-state');
+        const itemsContainer = document.getElementById('items-container');
+        const itemsList = document.getElementById('items-list');
+        const statsBar = document.getElementById('stats-bar');
+        const refreshBtn = document.getElementById('refresh-btn');
+        const retryBtn = document.getElementById('retry-btn');
+        const sendSlackBtn = document.getElementById('send-slack-btn');
+        const errorMessage = document.getElementById('error-message');
+
+        // Stats elements
+        const totalItemsEl = document.getElementById('total-items');
+        const highPriorityEl = document.getElementById('high-priority');
+        const githubCountEl = document.getElementById('github-count');
+        const slackCountEl = document.getElementById('slack-count');
+
+        // State
+        let currentItems = [];
+
+        // Utility Functions
+        function getPriorityClass(score) {
+            if (score >= 0.8) return 'priority-high';
+            if (score >= 0.6) return 'priority-medium';
+            if (score >= 0.4) return 'priority-low';
+            return 'priority-info';
+        }
+
+        function getPriorityLabel(score) {
+            if (score >= 0.8) return 'HIGH';
+            if (score >= 0.6) return 'MEDIUM';
+            if (score >= 0.4) return 'LOW';
+            return 'INFO';
+        }
+
+        function getSourceClass(source) {
+            return `source-${source.toLowerCase()}`;
+        }
+
+        function getSourceEmoji(source) {
+            const emojis = {
+                'github': '🐙',
+                'jira': '🎫',
+                'slack': '💬'
+            };
+            return emojis[source.toLowerCase()] || '📋';
+        }
+
+        function formatTimestamp(timestamp) {
+            try {
+                const date = new Date(timestamp);
+                return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            } catch {
+                return timestamp;
+            }
+        }
+
+        function truncateText(text, maxLength) {
+            if (text.length <= maxLength) return text;
+            return text.substring(0, maxLength) + '...';
+        }
+
+        // Slack-specific utility functions
+        function extractSlackInfo(link) {
+            // Extract channel ID and message timestamp from Slack link
+            // Format: https://workspace.slack.com/archives/C12345ABC/p1694343600123456
+            const match = link.match(/\/archives\/([^\/]+)\/p(\d+)(\d{6})/);
+            if (match) {
+                return {
+                    channelId: match[1],
+                    threadTs: `${match[2]}.${match[3]}`
+                };
+            }
+            return null;
+        }
+
+        function showNotification(message, type = 'info') {
+            // Create a simple notification
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 ${
+                type === 'success' ? 'bg-green-500 text-white' :
+                type === 'error' ? 'bg-red-500 text-white' :
+                'bg-blue-500 text-white'
+            }`;
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 3000);
+        }
+
+        // Slack action handlers
+        async function handleReplyToMessage(item) {
+            const slackInfo = extractSlackInfo(item.link);
+            if (!slackInfo) {
+                showNotification('Could not extract Slack message information', 'error');
+                return;
+            }
+
+            const message = prompt('Enter your reply message:');
+            if (!message) return;
+
+            try {
+                const result = await replyToSlackMessage(slackInfo.channelId, slackInfo.threadTs, message);
+                if (result.success) {
+                    showNotification('Reply sent successfully!', 'success');
+                } else {
+                    showNotification(`Failed to send reply: ${result.message}`, 'error');
+                }
+            } catch (error) {
+                showNotification('Error sending reply', 'error');
+            }
+        }
+
+        async function handleAddBookmark(item) {
+            const slackInfo = extractSlackInfo(item.link);
+            if (!slackInfo) {
+                showNotification('Could not extract Slack message information', 'error');
+                return;
+            }
+
+            const title = prompt('Enter bookmark title:', `Important: ${item.title.substring(0, 50)}...`);
+            if (!title) return;
+
+            try {
+                const result = await addSlackBookmark(slackInfo.channelId, title, item.link);
+                if (result.success) {
+                    showNotification('Bookmark added successfully!', 'success');
+                } else {
+                    showNotification(`Failed to add bookmark: ${result.message}`, 'error');
+                }
+            } catch (error) {
+                showNotification('Error adding bookmark', 'error');
+            }
+        }
+
+        async function handleAddReminder(item) {
+            const time = prompt('When should you be reminded?', 'in 1 hour');
+            if (!time) return;
+
+            const reminderText = `Check on this message: ${item.title} - ${item.link}`;
+
+            try {
+                const result = await addSlackReminder(reminderText, time);
+                if (result.success) {
+                    showNotification('Reminder added successfully!', 'success');
+                } else {
+                    showNotification(`Failed to add reminder: ${result.message}`, 'error');
+                }
+            } catch (error) {
+                showNotification('Error adding reminder', 'error');
+            }
+        }
+
+        // API Functions
+        async function fetchActivityItems() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/combined/analyzed-items-http`);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('Failed to fetch activity items:', error);
+                throw error;
+            }
+        }
+
+        // Slack Action Functions
+        async function replyToSlackMessage(channelId, threadTs, message) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/slack/reply-to-message`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        channel_id: channelId,
+                        thread_ts: threadTs,
+                        message: message
+                    })
+                });
+
+                const result = await response.json();
+                return result;
+            } catch (error) {
+                console.error('Failed to reply to Slack message:', error);
+                throw error;
+            }
+        }
+
+        async function addSlackBookmark(channelId, title, link) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/slack/add-bookmark`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        channel_id: channelId,
+                        title: title,
+                        link: link
+                    })
+                });
+
+                const result = await response.json();
+                return result;
+            } catch (error) {
+                console.error('Failed to add Slack bookmark:', error);
+                throw error;
+            }
+        }
+
+        async function addSlackReminder(text, time) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/slack/add-reminder`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        time: time
+                    })
+                });
+
+                const result = await response.json();
+                return result;
+            } catch (error) {
+                console.error('Failed to add Slack reminder:', error);
+                throw error;
+            }
+        }
+
+        async function sendToSlack() {
+            try {
+                sendSlackBtn.disabled = true;
+                sendSlackBtn.innerHTML = `
+                    <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                    <span>Sending...</span>
+                `;
+                
+                const response = await fetch(`${API_BASE_URL}/slack/send-daily-summary`, {
+                    method: 'POST'
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+                
+                // Show success message
+                sendSlackBtn.innerHTML = `
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span>Sent Successfully!</span>
+                `;
+                sendSlackBtn.className = sendSlackBtn.className.replace('bg-green-600 hover:bg-green-700', 'bg-green-500');
+                
+                // Reset button after 3 seconds
+                setTimeout(() => {
+                    sendSlackBtn.innerHTML = `
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52-2.523c0-1.393 1.135-2.528 2.52-2.528h2.52v2.528c0 1.393-1.135 2.528-2.52 2.528zM6.313 17.094h6.734a2.528 2.528 0 0 0 2.52-2.528 2.528 2.528 0 0 0-2.52-2.528H6.313v5.056zM18.958 8.835a2.528 2.528 0 0 1 2.52 2.523c0 1.393-1.135 2.528-2.52 2.528h-2.52V8.835c0-1.393 1.135-2.528 2.52-2.528zM17.687 6.906H10.953a2.528 2.528 0 0 0-2.52 2.528 2.528 2.528 0 0 0 2.52 2.528h6.734V6.906z"/>
+                        </svg>
+                        <span>Send Summary to Slack</span>
+                    `;
+                    sendSlackBtn.className = sendSlackBtn.className.replace('bg-green-500', 'bg-green-600 hover:bg-green-700');
+                    sendSlackBtn.disabled = false;
+                }, 3000);
+                
+            } catch (error) {
+                console.error('Failed to send to Slack:', error);
+                
+                // Show error state
+                sendSlackBtn.innerHTML = `
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span>Failed to Send</span>
+                `;
+                sendSlackBtn.className = sendSlackBtn.className.replace('bg-green-600 hover:bg-green-700', 'bg-red-500');
+                
+                // Reset button after 3 seconds
+                setTimeout(() => {
+                    sendSlackBtn.innerHTML = `
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52-2.523c0-1.393 1.135-2.528 2.52-2.528h2.52v2.528c0 1.393-1.135 2.528-2.52 2.528zM6.313 17.094h6.734a2.528 2.528 0 0 0 2.52-2.528 2.528 2.528 0 0 0-2.52-2.528H6.313v5.056zM18.958 8.835a2.528 2.528 0 0 1 2.52 2.523c0 1.393-1.135 2.528-2.52 2.528h-2.52V8.835c0-1.393 1.135-2.528 2.52-2.528zM17.687 6.906H10.953a2.528 2.528 0 0 0-2.52 2.528 2.528 2.528 0 0 0 2.52 2.528h6.734V6.906z"/>
+                        </svg>
+                        <span>Send Summary to Slack</span>
+                    `;
+                    sendSlackBtn.className = sendSlackBtn.className.replace('bg-red-500', 'bg-green-600 hover:bg-green-700');
+                    sendSlackBtn.disabled = false;
+                }, 3000);
+            }
+        }
+
+        // UI Functions
+        function showLoading() {
+            loadingState.classList.remove('hidden');
+            errorState.classList.add('hidden');
+            emptyState.classList.add('hidden');
+            itemsContainer.classList.add('hidden');
+            statsBar.classList.add('hidden');
+            sendSlackBtn.classList.add('hidden');
+        }
+
+        function showError(message) {
+            loadingState.classList.add('hidden');
+            errorState.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+            itemsContainer.classList.add('hidden');
+            statsBar.classList.add('hidden');
+            sendSlackBtn.classList.add('hidden');
+            errorMessage.textContent = message;
+        }
+
+        function showEmpty() {
+            loadingState.classList.add('hidden');
+            errorState.classList.add('hidden');
+            emptyState.classList.remove('hidden');
+            itemsContainer.classList.add('hidden');
+            statsBar.classList.add('hidden');
+            sendSlackBtn.classList.add('hidden');
+        }
+
+        function showItems(items) {
+            loadingState.classList.add('hidden');
+            errorState.classList.add('hidden');
+            emptyState.classList.add('hidden');
+            itemsContainer.classList.remove('hidden');
+            statsBar.classList.remove('hidden');
+            sendSlackBtn.classList.remove('hidden');
+
+            renderItems(items);
+            updateStats(items);
+        }
+
+        function updateStats(items) {
+            const total = items.length;
+            const highPriority = items.filter(item => item.score >= 0.8).length;
+            const githubCount = items.filter(item => item.source.toLowerCase() === 'github').length;
+            const slackCount = items.filter(item => item.source.toLowerCase() === 'slack').length;
+
+            totalItemsEl.textContent = total;
+            highPriorityEl.textContent = highPriority;
+            githubCountEl.textContent = githubCount;
+            slackCountEl.textContent = slackCount;
+        }
+
+        function renderItems(items) {
+            itemsList.innerHTML = '';
+
+            items.forEach((item, index) => {
+                const itemElement = document.createElement('div');
+                itemElement.className = `p-6 hover:bg-gray-50 transition-colors border-l-4 ${getSourceClass(item.source)}`;
+
+                const priorityClass = getPriorityClass(item.score);
+                const priorityLabel = getPriorityLabel(item.score);
+                const sourceEmoji = getSourceEmoji(item.source);
+
+                itemElement.innerHTML = `
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg">${sourceEmoji}</span>
+                            <span class="px-2 py-1 text-xs font-medium rounded-full ${priorityClass}">${priorityLabel}</span>
+                            <span class="text-sm font-medium text-gray-600">${item.source.toUpperCase()}</span>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-medium text-gray-900">Score: ${item.score.toFixed(2)}</div>
+                            <div class="text-xs text-gray-500">#${index + 1}</div>
+                        </div>
+                    </div>
+
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                        <a href="${item.link}" target="_blank" class="hover:text-blue-600 transition-colors">
+                            ${item.title}
+                        </a>
+                    </h3>
+
+                    <div class="mb-4">
+                        <details class="group">
+                            <summary class="flex items-center justify-between cursor-pointer text-sm font-medium text-gray-700 hover:text-gray-900 py-2 px-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                                <span class="flex items-center space-x-2">
+                                    <span>📄</span>
+                                    <span>Summary</span>
+                                </span>
+                                <svg class="w-4 h-4 transform transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </summary>
+                            <div class="mt-3 text-sm text-gray-700 bg-white p-3 border border-gray-200 rounded-lg">
+                                ${item.long_summary}
+                            </div>
+                        </details>
+                    </div>
+
+                    ${item.action_items && item.action_items.length > 0 ? `
+                        <div class="mb-4">
+                            <details class="group">
+                                <summary class="flex items-center justify-between cursor-pointer text-sm font-medium text-gray-700 hover:text-gray-900 py-2 px-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                                    <span class="flex items-center space-x-2">
+                                        <span>✅</span>
+                                        <span>Action Items (${item.action_items.length})</span>
+                                    </span>
+                                    <svg class="w-4 h-4 transform transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </summary>
+                                <div class="mt-3 bg-white border border-gray-200 rounded-lg p-3">
+                                    <ul class="text-sm text-gray-700 space-y-2">
+                                        ${item.action_items.map(action => `
+                                            <li class="flex items-start space-x-2">
+                                                <span class="text-blue-500 mt-1 flex-shrink-0">•</span>
+                                                <span>${action}</span>
+                                            </li>
+                                        `).join('')}
+                                    </ul>
+                                </div>
+                            </details>
+                        </div>
+                    ` : ''}
+
+                    <div class="flex justify-between items-center text-xs text-gray-500">
+                        <span>Timestamp: ${formatTimestamp(item.timestamp)}</span>
+                        <a href="${item.link}" target="_blank" class="text-blue-600 hover:text-blue-800 font-medium">
+                            View Original →
+                        </a>
+                    </div>
+
+                    ${item.source.toLowerCase() === 'slack' ? `
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <div class="text-xs text-gray-600 mb-2">
+                                <strong>Slack Actions:</strong>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="handleReplyToMessage(${JSON.stringify(item).replace(/"/g, '&quot;')})"
+                                        class="inline-flex items-center px-3 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors">
+                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
+                                    </svg>
+                                    Reply
+                                </button>
+                                <button onclick="handleAddBookmark(${JSON.stringify(item).replace(/"/g, '&quot;')})"
+                                        class="inline-flex items-center px-3 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800 hover:bg-yellow-200 transition-colors">
+                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+                                    </svg>
+                                    Bookmark
+                                </button>
+                                <button onclick="handleAddReminder(${JSON.stringify(item).replace(/"/g, '&quot;')})"
+                                        class="inline-flex items-center px-3 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-800 hover:bg-purple-200 transition-colors">
+                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    Remind Me
+                                </button>
+                            </div>
+                        </div>
+                    ` : ''}
+                `;
+
+                itemsList.appendChild(itemElement);
+            });
+        }
+
+        // Main load function
+        async function loadData() {
+            showLoading();
+
+            try {
+                const items = await fetchActivityItems();
+                currentItems = items;
+
+                if (items.length === 0) {
+                    showEmpty();
+                } else {
+                    showItems(items);
+                }
+            } catch (error) {
+                showError(error.message);
+            }
+        }
+
+        // Event Listeners
+        refreshBtn.addEventListener('click', loadData);
+        retryBtn.addEventListener('click', loadData);
+        sendSlackBtn.addEventListener('click', sendToSlack);
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>

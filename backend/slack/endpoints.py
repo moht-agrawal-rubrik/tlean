@@ -11,6 +11,8 @@ from typing import Optional
 from datetime import datetime
 from fastapi import APIRouter, HTTPException, Query, Depends
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel
+import httpx
 
 from .slack import SlackAPI
 from .models import (
@@ -404,3 +406,234 @@ async def get_analyzed_user_messages(
             raise HTTPException(status_code=429, detail=error_response.model_dump())
         else:
             raise HTTPException(status_code=500, detail=error_response.model_dump())
+
+
+# Request/Response models for new Slack actions
+class ReplyToMessageRequest(BaseModel):
+    channel_id: str
+    thread_ts: str
+    message: str
+
+class AddBookmarkRequest(BaseModel):
+    channel_id: str
+    title: str
+    link: str
+
+class AddReminderRequest(BaseModel):
+    text: str
+    time: str  # e.g., "in 1 minute", "tomorrow at 9am", etc.
+
+class SlackActionResponse(BaseModel):
+    success: bool
+    message: str
+    data: Optional[dict] = None
+
+
+# Get Slack tokens from environment
+SLACK_BOT_TOKEN = os.getenv("SLACK_BOT_TOKEN")
+SLACK_USER_TOKEN = os.getenv("SLACK_USER_TOKEN") or os.getenv("SLACK_OAUTH_TOKEN")  # For user actions (replies, reminders)
+
+if not SLACK_BOT_TOKEN:
+    logger.warning("SLACK_BOT_TOKEN not found in environment variables")
+
+if not SLACK_USER_TOKEN:
+    logger.warning("SLACK_USER_TOKEN not found - replies will be sent as bot instead of user")
+
+
+@router.post("/reply-to-message", response_model=SlackActionResponse)
+async def reply_to_message(request: ReplyToMessageRequest):
+    """
+    Reply to a Slack message in a thread as the authenticated user.
+
+    Args:
+        request: Contains channel_id, thread_ts, and message content
+
+    Returns:
+        Success/failure response with message details
+    """
+    # Use user token for replies to appear as the user, not bot
+    token = SLACK_USER_TOKEN or SLACK_BOT_TOKEN
+
+    if not token:
+        raise HTTPException(
+            status_code=500,
+            detail="Slack token not configured"
+        )
+
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                "https://slack.com/api/chat.postMessage",
+                headers={
+                    "Authorization": f"Bearer {token}",
+                    "Content-type": "application/json; charset=utf-8"
+                },
+                json={
+                    "channel": request.channel_id,
+                    "text": request.message,
+                    "thread_ts": request.thread_ts
+                }
+            )
+
+            result = response.json()
+
+            if result.get("ok"):
+                return SlackActionResponse(
+                    success=True,
+                    message="Reply sent successfully as user",
+                    data={
+                        "ts": result.get("ts"),
+                        "channel": result.get("channel"),
+                        "sent_as": "user" if SLACK_USER_TOKEN else "bot"
+                    }
+                )
+            else:
+                error_msg = result.get('error', 'Unknown error')
+
+                # Provide helpful error messages for common issues
+                if error_msg == "not_in_channel":
+                    detailed_msg = f"Error: {error_msg} - The user/bot is not a member of channel {request.channel_id}. Please join the channel first or invite the bot to the channel."
+                elif error_msg == "channel_not_found":
+                    detailed_msg = f"Error: {error_msg} - Channel {request.channel_id} not found. Please check the channel ID."
+                elif error_msg == "invalid_auth":
+                    detailed_msg = f"Error: {error_msg} - Invalid token. Please check your SLACK_USER_TOKEN or SLACK_BOT_TOKEN."
+                elif error_msg == "missing_scope":
+                    detailed_msg = f"Error: {error_msg} - Token missing required permissions. Need 'chat:write' scope."
+                else:
+                    detailed_msg = f"Failed to send reply: {error_msg}"
+
+                logger.error(f"Slack API error: {error_msg} for channel {request.channel_id}")
+
+                return SlackActionResponse(
+                    success=False,
+                    message=detailed_msg,
+                    data={
+                        "error_code": error_msg,
+                        "channel_id": request.channel_id,
+                        "thread_ts": request.thread_ts
+                    }
+                )
+
+    except Exception as e:
+        logger.error(f"Error replying to message: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to reply to message: {str(e)}"
+        )
+
+
+@router.post("/add-bookmark", response_model=SlackActionResponse)
+async def add_bookmark(request: AddBookmarkRequest):
+    """
+    Add a bookmark to a Slack channel.
+
+    Args:
+        request: Contains channel_id, title, and link
+
+    Returns:
+        Success/failure response with bookmark details
+    """
+    if not SLACK_BOT_TOKEN:
+        raise HTTPException(
+            status_code=500,
+            detail="Slack bot token not configured"
+        )
+
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                "https://slack.com/api/bookmarks.add",
+                headers={
+                    "Authorization": f"Bearer {SLACK_USER_TOKEN}",
+                    "Content-type": "application/json; charset=utf-8"
+                },
+                json={
+                    "channel_id": request.channel_id,
+                    "type": "link",
+                    "title": request.title,
+                    "link": request.link
+                }
+            )
+
+            result = response.json()
+
+            if result.get("ok"):
+                return SlackActionResponse(
+                    success=True,
+                    message="Bookmark added successfully",
+                    data={
+                        "bookmark_id": result.get("bookmark", {}).get("id"),
+                        "title": result.get("bookmark", {}).get("title")
+                    }
+                )
+            else:
+                return SlackActionResponse(
+                    success=False,
+                    message=f"Failed to add bookmark: {result.get('error', 'Unknown error')}"
+                )
+
+    except Exception as e:
+        logger.error(f"Error adding bookmark: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to add bookmark: {str(e)}"
+        )
+
+
+@router.post("/add-reminder", response_model=SlackActionResponse)
+async def add_reminder(request: AddReminderRequest):
+    """
+    Add a reminder for the user.
+
+    Args:
+        request: Contains reminder text and time
+
+    Returns:
+        Success/failure response with reminder details
+    """
+    # Use user token for reminders (bot tokens don't work for reminders.add)
+    token = SLACK_USER_TOKEN or SLACK_BOT_TOKEN
+
+    if not token:
+        raise HTTPException(
+            status_code=500,
+            detail="Slack token not configured"
+        )
+
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                "https://slack.com/api/reminders.add",
+                headers={
+                    "Authorization": f"Bearer {token}",
+                    "Content-type": "application/json; charset=utf-8"
+                },
+                json={
+                    "text": request.text,
+                    "time": request.time
+                }
+            )
+
+            result = response.json()
+
+            if result.get("ok"):
+                return SlackActionResponse(
+                    success=True,
+                    message="Reminder added successfully",
+                    data={
+                        "reminder_id": result.get("reminder", {}).get("id"),
+                        "time": result.get("reminder", {}).get("time")
+                    }
+                )
+            else:
+                return SlackActionResponse(
+                    success=False,
+                    message=f"Failed to add reminder: {result.get('error', 'Unknown error')}"
+                )
+
+    except Exception as e:
+        logger.error(f"Error adding reminder: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to add reminder: {str(e)}"
+        )

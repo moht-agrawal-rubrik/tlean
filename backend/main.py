@@ -1,4 +1,6 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from slack.endpoints import router as slack_router
 from dotenv import load_dotenv
 import logging
@@ -36,6 +38,9 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Mount static files for web UI
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 # Include routers
 if GITHUB_ROUTER_AVAILABLE:
     app.include_router(github_router)
@@ -46,9 +51,14 @@ if JIRA_ROUTER_AVAILABLE:
 # Include Slack router
 app.include_router(slack_router)
 
-# Root endpoint
+# Root endpoint - serve the web UI
 @app.get("/")
 async def root():
+    return FileResponse('static/index.html')
+
+# API info endpoint
+@app.get("/api")
+async def api_info():
     return {
         "message": "TLean Backend API",
         "version": "1.0.0",
@@ -67,7 +77,8 @@ async def root():
                 "analyzed_messages": "/slack/user/{username}/analyzed-messages (LLM-powered insights)",
                 "search": "/slack/search"
             },
-            "docs": "/docs"
+            "docs": "/docs",
+            "ui": "/ (Web UI Dashboard)"
         }
     }
 
@@ -403,7 +414,7 @@ async def make_http_request(client: httpx.AsyncClient, source: str, endpoint: st
 
 
 @app.post("/slack/send-daily-summary")
-async def send_daily_summary_to_slack(channel_id: str = "C09E27E6F8X"):
+async def send_daily_summary_to_slack(channel_id: str = "C09FFQ5C9S4"):
     """
     Fetch analyzed items and send each as individual Slack messages.
 
